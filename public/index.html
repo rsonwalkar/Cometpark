@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="effects.css">
+		<meta charset='utf-8'>
+		<h2>Cometpark</h2>
+		<meta name='description' content='Personal Website. Showcases details about my education & experience.'>
+		<meta name='author' content='Rohit Sonwalkar'>
+		 <!--Mobile viewport optimized-->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+		
+	</head>
+	<body>
+		<button id='ajax'>ajax call</button>
+		<div></div>
+		<button id='json'>json</button>
+		<script type='text/javascript'>
+		$('#json').click(function() {
+			alert('json');
+			$.getJSON('http://localhost:4242/api/parkingstatus', function(data) {
+				//alert(data);
+				console.log('JSON data: ', data);
+				/*var items = [];
+				$.each(data, function(id, status) {
+					items.push('<li id="'+id+'">' + status +'</li>');
+				});
+				$( "<ul/>", {
+    				"class": "my-new-list",
+    				html: items.join( "" )
+  				}).appendTo( "body" );*/
+				for(spot in data) {
+					console.log(spot.pid);
+				}
+			});
+		});
+
+		$('#ajax').click(function() {
+			alert('ajax');
+			$.ajax({
+				type: 'GET',
+				datatype: 'json',
+				url: 'http://localhost:4242/api/parkingstatus',
+				success: function(data) {
+					function traverse(data) {
+						for(spot in data) {
+							if(typeof data[spot] == 'object') {
+							console.log(data[spot].pid);
+							}
+						}
+							
+					}
+					
+					
+					/*$(json).find('pid').each(function() {
+						var id = $(this).find('pid').text();
+						$('<tr><td>' + id + '</td></tr>').appendTo('#parking');
+					});*/
+				}
+			});
+		});
+		</script>
+		<div id='container'>
+			<nav>
+				<ul class='a'>
+					<li><a href="http://localhost:4242/api">Parking Status</a></li>
+				</ul>
+			</nav>
+			<div id='main'>
+				<article>
+					Welcome to Cometpark!</br>
+					This is a test page</br>
+				</article>
+			<table border='1' id='parking'>
+				<tr><b>PID</b></tr>
+				<tr><b>PStatus</b></tr>
+			</table>
+		
+				
+			</div>
+			<footer>
+				<h5>Cometpark &copy; 2014</h5>
+			</footer>	
+		</div>
+	</body>
+</html>
