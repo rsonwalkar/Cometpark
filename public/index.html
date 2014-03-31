@@ -11,31 +11,28 @@
 		
 	</head>
 	<body>
-		<button id='ajax'>ajax call</button>
-		<div></div>
-		<button id='json'>json</button>
+		<button id='getparkingstatusjson'>Get Parking Status JSON</button>
+		<button id='getparkingstatusajax'>Get Parking Status AJAX</button>
+
 		<script type='text/javascript'>
-		$('#json').click(function() {
-			alert('json');
+		$('#getparkingstatusjson').click(function() {
 			$.getJSON('http://localhost:4242/api/parkingstatus', function(data) {
-				//alert(data);
 				console.log('JSON data: ', data);
-				/*var items = [];
+				var items = [];
+				
 				$.each(data, function(id, status) {
-					items.push('<li id="'+id+'">' + status +'</li>');
+					//items.push('<li id="'+id+'">' + status +'</li>');
+					console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
+					items.push('<li>' + status.pid + ' ' + status.pstatus + ' ' + status.permit + 	'</li>');
 				});
 				$( "<ul/>", {
     				"class": "my-new-list",
     				html: items.join( "" )
-  				}).appendTo( "body" );*/
-				for(spot in data) {
-					console.log(spot.pid);
-				}
+  				}).appendTo( "body" );
 			});
 		});
 
-		$('#ajax').click(function() {
-			alert('ajax');
+		$('#getparkingstatusajax').click(function() {
 			$.ajax({
 				type: 'GET',
 				datatype: 'json',
@@ -43,8 +40,8 @@
 				success: function(data) {
 					function traverse(data) {
 						for(spot in data) {
-							if(typeof data[spot] == 'object') {
-							console.log(data[spot].pid);
+							if(typeof spot == 'object') {
+							console.log(spot.pid);
 							}
 						}
 							
