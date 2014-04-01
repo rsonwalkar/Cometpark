@@ -18,7 +18,7 @@
 		</div>
 		<script type='text/javascript'>
 		$('#getparkingstatusjson').click(function() {
-			$.getJSON('http://localhost:4242/api/parkingstatus', function(data) {
+			$.getJSON('http://rohitsonwalkar.com:4242/api/parkingstatus', function(data) {
 				console.log('JSON data: ', data);
 				var items = [];
 				
@@ -40,7 +40,7 @@
 			$.ajax({
 				type: 'GET',
 				datatype: 'json',
-				url: 'http://localhost:4242/api/parkingstatus',
+				url: 'http://rohitsonwalkar.com:4242/api/parkingstatus',
 				success: function(data) {
 					var items = [];
 					items.push('<div align="center">');
