@@ -2,18 +2,20 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="effects.css">
 		<meta charset='utf-8'>
-		<h2>Cometpark</h2>
-		<meta name='description' content='Personal Website. Showcases details about my education & experience.'>
+		<div align="center">
+  			<h1>Cometpark</h1>
+		</div>
+		<meta name='description' content='Cometpark Frontend'>
 		<meta name='author' content='Rohit Sonwalkar'>
 		 <!--Mobile viewport optimized-->
 		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-		
 	</head>
 	<body>
-		<button id='getparkingstatusjson'>Get Parking Status JSON</button>
-		<button id='getparkingstatusajax'>Get Parking Status AJAX</button>
-
+		<!--<button id='getparkingstatusjson'>Get Parking Status JSON</button>-->
+		<div align="center">
+  			<button id='getparkingstatusajax'>Parking Status</button>
+		</div>
 		<script type='text/javascript'>
 		$('#getparkingstatusjson').click(function() {
 			$.getJSON('http://localhost:4242/api/parkingstatus', function(data) {
@@ -24,7 +26,9 @@
 					//items.push('<li id="'+id+'">' + status +'</li>');
 					console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
 					items.push('<li>' + status.pid + ' ' + status.pstatus + ' ' + status.permit + 	'</li>');
+
 				});
+				console.log('Items array' + items);
 				$( "<ul/>", {
     				"class": "my-new-list",
     				html: items.join( "" )
@@ -38,45 +42,19 @@
 				datatype: 'json',
 				url: 'http://localhost:4242/api/parkingstatus',
 				success: function(data) {
-					function traverse(data) {
-						for(spot in data) {
-							if(typeof spot == 'object') {
-							console.log(spot.pid);
-							}
-						}
-							
-					}
-					
-					
-					/*$(json).find('pid').each(function() {
-						var id = $(this).find('pid').text();
-						$('<tr><td>' + id + '</td></tr>').appendTo('#parking');
-					});*/
+					var items = [];
+					items.push('<div align="center">');
+					$.each(data, function(id, status) {
+						console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
+						items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
+					});
+					$( "<ul/>", {
+    					"class": "my-new-list",
+    					html: items.join( "" )
+  					}).appendTo( "body" );		
 				}
 			});
 		});
-		</script>
-		<div id='container'>
-			<nav>
-				<ul class='a'>
-					<li><a href="http://localhost:4242/api">Parking Status</a></li>
-				</ul>
-			</nav>
-			<div id='main'>
-				<article>
-					Welcome to Cometpark!</br>
-					This is a test page</br>
-				</article>
-			<table border='1' id='parking'>
-				<tr><b>PID</b></tr>
-				<tr><b>PStatus</b></tr>
-			</table>
-		
-				
-			</div>
-			<footer>
-				<h5>Cometpark &copy; 2014</h5>
-			</footer>	
-		</div>
+		</script>	
 	</body>
 </html>

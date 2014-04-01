@@ -1,43 +1,16 @@
 body
 {
-	background-color: white;
-}
-/* unvisited link */
-a:link {
-	color:brown;
-}
-/* visited link */
-a:visited {
-	color:brown;
-}
-/* mouse over link */
-a:hover {
-	color:#FF00FF;
+	background-color: silver;
 }
 /* selected link */
-a:active {
+h1{
 	color:brown;
 }
-/*List item markers*/  
-ul.a {
-	list-style-type:square;
-}  
-/*List item markers*/
-ul.b {
-	list-style-type:square;
-}  
-/*List item markers*/
-ul.c {
-	list-style-type:square;
-}  
-/*List item markers*/
-ul.d {
-	list-style-type:square;
-}  
+div {
+	text-align: center;
+}
+ul { display: table; margin: 0 auto; }    
 /*Changing the font for*/
 h2.serif{
-	font-family:"Lucida Console", Monaco, monospace;
-}
-h3.serif{
 	font-family:"Lucida Console", Monaco, monospace;
 }

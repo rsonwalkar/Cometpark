@@ -8,9 +8,9 @@ var cometpark = express();
 
 // Database - Using the felixge/node-mysql library to interact with the mysql server
 connection = mysql.createConnection({
-	host: 'rohitsonwalkar.com',
+	host: 'localhost',
 	user: 'root',
-	password: 'root',
+	password: 'mysql',
 	database: 'cometpark'
 });
 	
