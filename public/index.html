@@ -14,11 +14,71 @@
 	<body>
 		<!--<button id='getparkingstatusjson'>Get Parking Status JSON</button>-->
 		<div align="center">
-  			<button id='getparkingstatusajax'>Parking Status</button>
-		</div>
+			<button id='getparkingstatusajax'>Parking Status</button>
+		<p1></p1>
+  		</div>
+  		<div>
+  			<h3>Customized Search</h3>
+  			<label>Parking Lot:</label>
+  			<select id='parkinglot'>
+  				<option value="">Select</option>	
+  				<option value="a">A</option>
+  				<option value="b">B</option>
+  				<option value="c">C</option>
+  				<option value="d">D</option>
+			</select></br>
+			<label>Parking Permit:</label>
+			<select id='parkingpermit'>
+				<option value="">Select</option>
+  				<option value="green">green</option>
+  				<option value="gold">gold</option>
+  				<option value="purple">purple</option>
+  				<option value="orange">orange</option>
+			</select></br>
+			<button value='submit' type='submit' onClick='searchVacancy()'>Search Vacancy</button></br>
+			<p2></p2>
+  		</div>
+  		<script type="text/javascript">
+  			function searchVacancy() {
+  				var lotIndex = document.getElementById('parkinglot').selectedIndex;
+  				var lot = document.getElementById('parkinglot').options[lotIndex].text;
+  				var permitIndex = document.getElementById('parkingpermit').selectedIndex;
+  				var permit = document.getElementById('parkingpermit').options[permitIndex].text;
+  				alert('Lot: ' + lot + ' Permit: ' + permit);
+  				$.ajax({
+				type: 'GET',
+				datatype: 'json',
+				//data: JSON.stringify({'lot': lot, 'permit': permit}),
+				contentType: 'application/json; charset=utf-8',
+				url: 'http://localhost:4242/api/parkingstatus/'+lot+'/'+permit,
+				success: function(data) {
+					console.log('Here is the data outside if: '+data);
+					if(!jQuery.isEmptyObject(data)) {
+						var items = [];
+					console.log('Here is the data: '+data);
+					items.push('<div align="center">');
+					$.each(data, function(id, status) {
+						console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
+						items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
+					});
+					$("p2").empty();
+					$( "<ul/>", {
+    					"class": "my-parking-list",
+    					html: items.join( "</div>" )
+  					}).appendTo( "p2" );	
+					} else {
+						//document.write('No matching records for your search.');
+						var text = [];
+						$('p2').text('No matching records.');
+					}
+				}	
+			});
+
+  			}
+  		</script>
 		<script type='text/javascript'>
 		$('#getparkingstatusjson').click(function() {
-			$.getJSON('http://rohitsonwalkar.com:4242/api/parkingstatus', function(data) {
+			$.getJSON('http://localhost:4242/api/parkingstatus', function(data) {
 				console.log('JSON data: ', data);
 				var items = [];
 				
@@ -36,22 +96,26 @@
 			});
 		});
 
+
 		$('#getparkingstatusajax').click(function() {
+
 			$.ajax({
 				type: 'GET',
 				datatype: 'json',
-				url: 'http://rohitsonwalkar.com:4242/api/parkingstatus',
+				url: 'http://localhost:4242/api/parkingstatus',
 				success: function(data) {
 					var items = [];
+
 					items.push('<div align="center">');
 					$.each(data, function(id, status) {
 						console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
 						items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
 					});
+					$("p1").empty();
 					$( "<ul/>", {
     					"class": "my-new-list",
-    					html: items.join( "" )
-  					}).appendTo( "body" );		
+    					html: items.join( "</div>" )
+  					}).appendTo( "p1" );		
 				}
 			});
 		});
