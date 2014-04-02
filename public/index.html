@@ -50,7 +50,7 @@
 				datatype: 'json',
 				//data: JSON.stringify({'lot': lot, 'permit': permit}),
 				contentType: 'application/json; charset=utf-8',
-				url: 'http://localhost:4242/api/parkingstatus/'+lot+'/'+permit,
+				url: 'http://rohitsonwalkar.com:4242/api/parkingstatus/'+lot+'/'+permit,
 				success: function(data) {
 					console.log('Here is the data outside if: '+data);
 					if(!jQuery.isEmptyObject(data)) {
@@ -78,7 +78,7 @@
   		</script>
 		<script type='text/javascript'>
 		$('#getparkingstatusjson').click(function() {
-			$.getJSON('http://localhost:4242/api/parkingstatus', function(data) {
+			$.getJSON('http://rohitsonwalkar.com:4242/api/parkingstatus', function(data) {
 				console.log('JSON data: ', data);
 				var items = [];
 				
@@ -102,7 +102,7 @@
 			$.ajax({
 				type: 'GET',
 				datatype: 'json',
-				url: 'http://localhost:4242/api/parkingstatus',
+				url: 'http://rohitsonwalkar.com:4242/api/parkingstatus',
 				success: function(data) {
 					var items = [];
 
