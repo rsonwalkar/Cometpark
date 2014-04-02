@@ -44,7 +44,6 @@
   				var lot = document.getElementById('parkinglot').options[lotIndex].text;
   				var permitIndex = document.getElementById('parkingpermit').selectedIndex;
   				var permit = document.getElementById('parkingpermit').options[permitIndex].text;
-  				alert('Lot: ' + lot + ' Permit: ' + permit);
   				$.ajax({
 				type: 'GET',
 				datatype: 'json',
@@ -105,7 +104,6 @@
 				url: 'http://rohitsonwalkar.com:4242/api/parkingstatus',
 				success: function(data) {
 					var items = [];
-
 					items.push('<div align="center">');
 					$.each(data, function(id, status) {
 						console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
