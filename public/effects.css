@@ -14,3 +14,9 @@ ul { display: table; margin: 0 auto; }
 h2.serif{
 	font-family:"Lucida Console", Monaco, monospace;
 }
+
+button:hover{
+	background-color:#E6EFC2;
+    border:1px solid #C6D880;
+    color:#529214;
+}

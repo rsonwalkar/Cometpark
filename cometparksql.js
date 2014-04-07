@@ -26,10 +26,16 @@ connection.connect(function(err) {
 // Configuring cometpark app using the Express library
 
 cometpark.configure(function () {
+  //cometpark.set('view engine', 'ejs');
+  //cometpark.set('views', path.join(__dirname, '/views'));
+  //cometpark.engine('.html', require('ejs').renderFile);
   cometpark.use(express.bodyParser());
   cometpark.use(express.methodOverride());
   cometpark.use(cometpark.router);
-  cometpark.use(express.static(path.join(application_root, "public")));
+  //cometpark.use(express.static(path.join(application_root, "public")));
+  cometpark.use(express.static(path.join(__dirname + '/public')));
+  cometpark.use(express.static(path.join(__dirname + '/files')));
+  cometpark.use(express.favicon(path.join(__dirname, '/public/images/favicon.ico')));
   cometpark.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
@@ -37,6 +43,137 @@ cometpark.get('/api', function (req, res) {
 	res.statusCode = 200;  
 	res.type('text/plain'); // set content-type
   	res.send('Success. Cometpark API is up and running :)');
+});
+
+// Render a response html page
+cometpark.get('/adminlogin', function (req, res) {
+	if(Object.keys(req.query).length == 0) {
+		res.sendfile(__dirname + '/public/adminlogin.html');
+	} else {
+		//var uname = req.body.username;
+		//var password = req.body.password;
+		console.log('Admin panel get request query: ', req.query);
+		//console.log('Uname: '+req.body.uname.value);
+		//console.log('uname: ', uname, ' pwd: ', password);
+		//res.json('uname: ' + uname + ' pwd: ' + password);
+		connection.query('SELECT * FROM auth where uname="' + req.query.uname + '" and password="' + req.query.password + '"', function(err, success) {
+			if(!err && Object.keys(success).length != 0) {
+				console.log('Here is what we got from the auth table: ', success);
+				console.log('Returning admin panel');
+				//console.log(__dirname+'/public/adminpanel');
+				//res.sendfile(__dirname + '/public/adminpanel.html');
+				return res.send(success);
+			} else {
+				//res.type('text/plain');
+				//res.statusCode = 200;
+				console.log('In the else part of the post');
+				return res.send(success);
+			}
+		});
+	}
+});
+
+// Render a response html page
+/*cometpark.get('/adminlogin', function (req, res) {
+	//if(Object.keys(req.query).length == 0) {
+		res.sendfile(__dirname + '/public/adminlogin.html');	
+	} else {
+		var uname = req.query.username;
+		var password = req.query.password;
+		console.log('uname: ', uname, ' pwd: ', password);
+		res.json('uname: ' + uname + ' pwd: ' + password);
+	}
+	console.log('Get request on Admin Panel: ', req.query);
+	//res.type('text/plain');
+	//res.send('Dir name: ' + __dirname + '/public/adminpanel.html');
+	
+	//res.render('adminpanel.html');
+});*/
+
+// Render a response html page
+cometpark.get('/adminpanel', function (req, res) {
+	res.sendfile(__dirname + '/public/adminpanel.html');	
+});
+
+cometpark.post('/adminpanel/addparkingspot', function(req, res) {
+	console.log('POST body: ', req.body);
+	if(!req.body.hasOwnProperty('lot') || !req.body.hasOwnProperty('permit') || !req.body.hasOwnProperty('id')) {
+		res.statusCode = 400;
+		res.type('text/plain');
+		res.send('Error 400 : Cometpark api Admin Panel POST syntax incorrect');
+	} else {
+		connection.query('SELECT * from parkinglot where pid="' + req.body.id + '"', function(err, success) {
+			console.log('Here is what we got from the parkinglot table: ', success);
+			if(!err && Object.keys(success).length == 0) {
+				connection.query('INSERT into parkinglot values ("'+ req.body.lot + '","' + req.body.id + '","vacant","' + req.body.permit + '")', function(err, success) {
+					if(!err) {
+					res.statusCode = 200;
+					console.log('Entry successfully inserted into the parking lot table');
+					res.send('Entry successfully inserted into the system :)');
+					} else {
+						res.statusCode = 404;
+						res.send('Could not insert an entry into the system :(');
+						console.log('Could not insert an entry into the parking lot table and heres why: ', err);
+					}
+  				});
+			} else {
+				res.statusCode = 200;
+				//res.type('text/plain');
+				res.send('A record for this parking spot already exists in the database. Please consider modifying it.');
+			}
+		});
+	}
+});
+
+cometpark.del('/adminpanel/deleteparkingspot', function(req, res) {
+	if(!req.body.hasOwnProperty('id')) {
+		res.statusCode = 400;
+		res.type('text/plain');
+		return res.send('Error 400 : Cometpark api DELETE syntax incorrect');
+	} else {
+		//console.log('ID: ', req.body.uname, ' password: ', req.body.password);
+			connection.query('DELETE from parkinglot where pid="' + req.body.id + '"', function(err, success) {
+					if(!err && success.affectedRows != 0) {
+						console.log('Here is what I got in success: ' + JSON.stringify(success));
+						console.log('Parking spot deleted');
+						res.statusCode = 200;
+						res.send('Parking spot deleted as per your request :)');
+					} else {
+						console.log('Could not delete the parking spot and here is why: ', err);
+						res.statusCode = 200;
+						res.send('Could not delete the parking spot from the system :(');
+					}
+			});
+	}
+});
+
+cometpark.put('/adminpanel/modifyparkingspot', function(req, res) {
+	if(!req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('permit')) {
+		res.statusCode = 400;
+		res.type('text/plain');
+		return res.send('Error 400 : Cometpark api PUT syntax incorrect');
+	} else {
+		connection.query('SELECT * from parkinglot where pid="' + req.body.id + '"', function(err, success) {
+					if(!err && Object.keys(success).length != 0) {
+						console.log('Such an entry exists in the parking lot table. Now updating as per your request');
+						connection.query('UPDATE parkinglot set permit="' + req.body.permit + '" where pid="' + req.body.id + '"', function(err, success) {
+							if(!err) {
+								res.statusCode = 200;
+								console.log('Parking lot status updated');
+								res.send('Parking lot status has been updated into the system as per your request :)');
+							} else {
+								res.statusCode = 404;
+								res.send('Could not update the parking spot permit type.');
+								console.log('Could not update the parking spot status and here is why: ', err);
+							}
+						});
+					} else {
+						res.statusCode = 200;
+						res.send('No such entry exists in the system. Have you considered adding it?');
+						console.log('No such entry exists in the parking lot database so cannot update');
+					}
+  				});
+	}
 });
 
 // retreive current parking status of a specific parking spot
@@ -75,7 +212,7 @@ cometpark.get('/api/parkingstatus/:lot/:permit', function (req, res) {
 // retreiving current parking status of the cometpark system
 // Example: curl http://localhost:4242/api/parkingstatus -X GET
 cometpark.get('/api/parkingstatus', function (req, res) {
-  connection.query('SELECT * FROM parkinglot', function(err, success) {
+  connection.query('SELECT * FROM parkinglot where pstatus="vacant"', function(err, success) {
 	if(!err) {
 		res.statusCode = 200; 
 		return res.json(success);
@@ -94,7 +231,7 @@ cometpark.get('/api/parkingstatus', function (req, res) {
 // Example: curl --data "uname=swapnil&password=swapnil&lot=A&id=A01&status=occupied&permit=green" http://localhost:4242/api/parkingstatus -X POST
 cometpark.post('/api/parkingstatus', function(req, res) {
 	console.log('POST: ', req.body);
-	if(!req.body.hasOwnProperty('uname') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('lot') || !req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('status') || !req.body.hasOwnProperty('permit')) {
+	if(!req.body.hasOwnProperty('uname') || !req.body.hasOwnProperty('password') || !req.body.hasOwnProperty('lot') || !req.body.hasOwnProperty('permit') || !req.body.hasOwnProperty('id')) {
 		res.statusCode = 400;
 		res.type('text/plain');
 		return res.send('Error 400 : Cometpark api POST syntax incorrect');
@@ -102,7 +239,7 @@ cometpark.post('/api/parkingstatus', function(req, res) {
 		connection.query('SELECT * from auth where uname="' + req.body.uname + '" and password="' + req.body.password + '"', function(err, success) {
 			if(!err && Object.keys(success).length != 0) {
 				console.log('Here is what we got from the auth table: ', success);
-				connection.query('INSERT into parkinglot values ("'+ req.body.lot + '","' + req.body.id + '","' + req.body.status + '","' + req.body.permit + '")', function(err, success) {
+				connection.query('INSERT into parkinglot values ("'+ req.body.lot + '","' + req.body.id + '","vacant","' + req.body.permit + '")', function(err, success) {
 					if(!err) {
 					res.statusCode = 200;
 					console.log('Entry successfully inserted into the parking lot table');
