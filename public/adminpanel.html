@@ -81,12 +81,20 @@
 						//items.push('<div align="center">');
 						//var text = 'No matching records.';
 						console.log('Here is the data from post: '+data);
-						//$('p1').empty();
+						var items = [];
+						$.each(data, function(id, status) {
+							console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
+							items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
+							});
+							$("p1").empty();
+							$("p1").text('A valid record already exists in the database. Please consider modifying it.');
+							$( "<ul/>", {
+    							"class": "my-parking-list",
+    							html: items.join( "</div>" )
+  							}).appendTo( "p1" );
+						// Commenting this line before ASEP class
 						//$('p1').text(data);
-						//$('p').text('Incorrect credentials. Please try again.');
-						//document.getElementById("p1").innerHTML=data;
-						$('p1').text(data);
-						//}
+						
 					}	
 					});
   				}

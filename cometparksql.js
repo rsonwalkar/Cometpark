@@ -122,8 +122,9 @@ cometpark.post('/adminpanel/addparkingspot', function(req, res) {
   				});
 			} else {
 				res.statusCode = 200;
-				//res.type('text/plain');
-				res.send('A record for this parking spot already exists in the database. Please consider modifying it.');
+				return res.json(success);
+				// commenting res.send() as of now
+				//res.send('A record for this parking spot already exists in the database. Please consider modifying it.');
 			}
 		});
 	}
