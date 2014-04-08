@@ -126,14 +126,14 @@
   				var permit = document.getElementById('modifyparkingpermit').value;
   				var parkingspot = document.getElementById('modifypermitinput').value;
   				if(!permit || !parkingspot) {
-  					alert('Oops... You did not spot id details that you wish to modify.');
+  					alert('Oops... You did not enter the spot id details you wish to modify.');
   				} else {
   					$.ajax({
 					type: 'PUT',
 					datatype: 'json',
 					data: JSON.stringify({'permit': permit, 'id': parkingspot}),
 					contentType: 'application/json; charset=utf-8',
-					url: 'http://rohitsonwalkar:4242/adminpanel/modifyparkingspot',
+					url: 'http://rohitsonwalkar.com:4242/adminpanel/modifyparkingspot',
 					success: function(data) {
 					//if(jQuery.isEmptyObject(data)) {
 						//var items = [];

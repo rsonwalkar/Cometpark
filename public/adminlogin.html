@@ -20,6 +20,8 @@
 				<p1 id="p1"></p1>
 				<p2 id='p2'></p2>
 				<a id='mylink' href='http://rohitsonwalkar.com:4242/adminpanel'></a>
+			</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
+			<a href="http://rohitsonwalkar.com:4242"><img src="images/Cancel.png" alt=""/>Homepage</a>
   		</div>
   		<script type='text/javascript'>
   			function authorize() {
@@ -39,19 +41,23 @@
 				contentType: 'application/json; charset=utf-8',
 				url: 'http://rohitsonwalkar.com:4242/adminlogin',
 				success: function(data) {
-					$('p2').empty();
-					if(jQuery.isEmptyObject(data)) {
-					//alert(data);
-					/*var text = 'No matching records.';
-					console.log('Here is the data from post: '+data);*/
+					if(!jQuery.isEmptyObject(data)) {
+					console.log(data);
+					window.location.href='/adminpanel';
+					//location.href='http://localhost:4242/adminpanel'
+					//$('p2').empty();
+					//if(jQuery.isEmptyObject(data)) {
 					
-					//document.getElementById("mydiv").innerHTML='Incorrect credentials. Please try again.';
+					//$('p2').text('Incorrect credentials. Please try again.');
+					//} else {
+						//document.getElementById('p2').innerHTML='You are authorized, please click here: ';
+						//document.getElementById('mylink').innerHTML='Admin Control Panel';
+					//}
+				} else {
+					$('p2').empty();
 					$('p2').text('Incorrect credentials. Please try again.');
-					} else {
-						document.getElementById('p2').innerHTML='You are authorized, please click here: ';
-						document.getElementById('mylink').innerHTML='Admin Control Panel';
-					}
 				}	
+			}
 				});
 			}
   			}  		

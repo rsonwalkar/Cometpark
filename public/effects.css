@@ -1,10 +1,10 @@
 body
 {
-	background-color: silver;
+	background-color: white;
 }
 /* selected link */
 h1{
-	color:brown;
+	color:OrangeRed;
 }
 div {
 	text-align: center;

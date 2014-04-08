@@ -62,7 +62,11 @@ cometpark.get('/adminlogin', function (req, res) {
 				console.log('Returning admin panel');
 				//console.log(__dirname+'/public/adminpanel');
 				//res.sendfile(__dirname + '/public/adminpanel.html');
-				return res.send(success);
+				res.statusCode = 302;
+				res.setHeader('Location', '/adminpanel');
+				//res.redirect('/adminpanel');
+				res.end();
+				//return res.send(success);
 			} else {
 				//res.type('text/plain');
 				//res.statusCode = 200;
