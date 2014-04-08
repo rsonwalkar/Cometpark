@@ -304,6 +304,24 @@ cometpark.put('/api/parkingstatus', function(req, res) {
 	}
 });
 
+// Updating a parking lot status using a PUT request. This API call would be made from the controller to update the server.
+// Example: curl http://localhost:4242/api/parkingstatus/A01/occupied -X PUT
+cometpark.put('/api/parkingstatus/:id/:status', function(req, res) {
+	connection.query('UPDATE parkinglot set pstatus="' + req.params.status + '" where pid="' + req.params.id + '"', function(err, success) {
+			if(!err) {
+				res.statusCode = 200;
+				console.log('Parking lot status updated');
+				res.send('Parking lot status has been updated into the system as per your request :)');
+			} else {
+			res.statusCode = 404;
+			res.send('Could not update the parking spot status.' + 
+			'Check your REST call for all the required information.');
+			console.log('Could not update the parking spot status and here is why: ', err);
+		}
+	});
+}); 
+
+
 // Deleting a parking lot. DELETE request. Note, this is only to be used by the admin
 // Example: curl --data "uname=swapnil&password=swapnil&id=A01" http://localhost:4242/api/parkingstatus -X DELETE
 cometpark.del('/api/parkingstatus', function(req, res) {
