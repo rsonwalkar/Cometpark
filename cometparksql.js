@@ -99,6 +99,22 @@ cometpark.get('/adminpanel', function (req, res) {
 	res.sendfile(__dirname + '/public/adminpanel.html');	
 });
 
+cometpark.get('/lotAstatus', function (req, res) {
+	res.sendfile(__dirname + '/public/lotAstatus.html');
+});
+
+cometpark.get('/lotBstatus', function (req, res) {
+	res.sendfile(__dirname + '/public/lotBstatus.html');
+});
+
+cometpark.get('/lotCstatus', function (req, res) {
+	res.sendfile(__dirname + '/public/lotCstatus.html');
+});
+
+cometpark.get('/lotDstatus', function (req, res) {
+	res.sendfile(__dirname + '/public/lotDstatus.html');
+});
+
 cometpark.post('/adminpanel/addparkingspot', function(req, res) {
 	console.log('POST body: ', req.body);
 	if(!req.body.hasOwnProperty('lot') || !req.body.hasOwnProperty('permit') || !req.body.hasOwnProperty('id')) {

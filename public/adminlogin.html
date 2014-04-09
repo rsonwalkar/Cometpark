@@ -19,9 +19,9 @@
 				<button type='submit' value='submit' onClick='authorize()'>Authorize</button></br>
 				<p1 id="p1"></p1>
 				<p2 id='p2'></p2>
-				<a id='mylink' href='http://rohitsonwalkar.com:4242/adminpanel'></a>
+				<a id='mylink' href='http://localhost:4242/adminpanel'></a>
 			</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
-			<a href="http://rohitsonwalkar.com:4242"><img src="images/Cancel.png" alt=""/>Homepage</a>
+			<a href="http://localhost:4242"><img src="images/Cancel.png" alt=""/>Homepage</a>
   		</div>
   		<script type='text/javascript'>
   			function authorize() {
@@ -39,7 +39,7 @@
 				datatype: 'json',
 				data: {'uname': uname, 'password': password},
 				contentType: 'application/json; charset=utf-8',
-				url: 'http://rohitsonwalkar.com:4242/adminlogin',
+				url: 'http://localhost:4242/adminlogin',
 				success: function(data) {
 					if(!jQuery.isEmptyObject(data)) {
 					console.log(data);

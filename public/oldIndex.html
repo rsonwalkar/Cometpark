@@ -1,0 +1,99 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="effects.css">
+		<meta charset='utf-8'>
+		<div align="center">
+  			<h1>Cometpark</h1>
+		</div>
+		<meta name='description' content='Cometpark Frontend'>
+		<meta name='author' content='Rohit Sonwalkar'>
+		 <!--Mobile viewport optimized-->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	</head>
+	<body>
+		<!--<button id='getparkingstatusjson'>Get Parking Status JSON</button>-->
+		<div>
+			<h3>UT Dallas Parking Vacancy Status</h3>
+			<button id='getparkingstatus'>Parking Status</button>
+			<p1></p1>
+  			<h3>UT Dallas Customized Parking Search</h3>
+  			<label>Parking Lot:</label>
+  			<select id='parkinglot'>
+  				<option value="">Select</option>	
+  				<option value="A">A</option>
+  				<option value="B">B</option>
+  				<option value="C">C</option>
+  				<option value="D">D</option>
+			</select></br>
+			<label>Parking Permit:</label>
+			<select id='parkingpermit'>
+				<option value="">Select</option>
+  				<option value="green">green</option>
+  				<option value="gold">gold</option>
+  				<option value="purple">purple</option>
+  				<option value="orange">orange</option>
+			</select></br>
+			<button value='submit' type='submit' onClick='searchVacancy()'>Search Vacancy</button></br>
+			<p2></p2></br></br></br></br></br></br></br></br>
+			<!--<a href='http://localhost:4242/adminlogin'>Admin Login</a>-->
+			<a href="http://localhost:4242/adminlogin"><img src="images/Login.png" alt=""/>Admin Panel</a>
+  		</div>
+  		<script type="text/javascript">
+  			function searchVacancy() {
+  				var lot = document.getElementById('parkinglot').value;
+  				var permit = document.getElementById('parkingpermit').value;
+  				if(!lot || !permit) {
+  					alert('Oops... You have not entered the lot or permit.');
+  				} else {
+  					$.ajax({
+					type: 'GET',
+					datatype: 'json',
+					contentType: 'application/json; charset=utf-8',
+					url: 'http://localhost:4242/api/parkingstatus/'+lot+'/'+permit,
+					success: function(data) {
+						if(!jQuery.isEmptyObject(data)) {
+							var items = [];
+							items.push('<div align="center">');
+							$.each(data, function(id, status) {
+							console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
+							items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
+							});
+							$("p2").empty();
+							$( "<ul/>", {
+    							"class": "my-parking-list",
+    							html: items.join( "</div>" )
+  							}).appendTo( "p2" );	
+						} else {
+							$('p2').text('No matching records.');
+						}
+					}	
+					});
+				}
+
+  			}
+  		</script>
+		<script type='text/javascript'>
+		$('#getparkingstatus').click(function() {
+			$.ajax({
+				type: 'GET',
+				datatype: 'json',
+				url: 'http://localhost:4242/api/parkingstatus',
+				success: function(data) {
+					var items = [];
+					items.push('<div align="center">');
+					$.each(data, function(id, status) {
+						console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
+						items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
+					});
+					$("p1").empty();
+					$( "<ul/>", {
+    					"class": "my-new-list",
+    					html: items.join( "</div>" )
+  					}).appendTo( "p1" );		
+				}
+			});
+		});
+		</script>	
+	</body>
+</html>

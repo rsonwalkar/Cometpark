@@ -14,10 +14,10 @@
 	<body>
 		<!--<button id='getparkingstatusjson'>Get Parking Status JSON</button>-->
 		<div>
-			<h3>UT Dallas Parking Vacancy Status</h3>
-			<button id='getparkingstatus'>Parking Status</button>
+			<!--<h3>UT Dallas Parking Vacancy Status</h3>
+			<button id='getparkingstatus'>Parking Status</button>-->
 			<p1></p1>
-  			<h3>UT Dallas Customized Parking Search</h3>
+  			<h3>UT Dallas Parking Lot Vacancy Status</h3>
   			<label>Parking Lot:</label>
   			<select id='parkinglot'>
   				<option value="">Select</option>	
@@ -26,74 +26,23 @@
   				<option value="C">C</option>
   				<option value="D">D</option>
 			</select></br>
-			<label>Parking Permit:</label>
-			<select id='parkingpermit'>
-				<option value="">Select</option>
-  				<option value="green">green</option>
-  				<option value="gold">gold</option>
-  				<option value="purple">purple</option>
-  				<option value="orange">orange</option>
-			</select></br>
-			<button value='submit' type='submit' onClick='searchVacancy()'>Search Vacancy</button></br>
+			
+			<button value='submit' type='submit' onClick='lotStatus()'>Search Vacancy</button></br>
 			<p2></p2></br></br></br></br></br></br></br></br>
 			<!--<a href='http://localhost:4242/adminlogin'>Admin Login</a>-->
-			<a href="http://rohitsonwalkar.com:4242/adminlogin"><img src="images/Login.png" alt=""/>Admin Panel</a>
+			<a href="http://localhost:4242/adminlogin"><img src="images/Login.png" alt=""/>Admin Panel</a>
   		</div>
   		<script type="text/javascript">
-  			function searchVacancy() {
+  			function lotStatus() {
   				var lot = document.getElementById('parkinglot').value;
-  				var permit = document.getElementById('parkingpermit').value;
-  				if(!lot || !permit) {
+  				console.log('Lot value: '+lot);
+  				
+  				if(!lot) {
   					alert('Oops... You have not entered the lot or permit.');
   				} else {
-  					$.ajax({
-					type: 'GET',
-					datatype: 'json',
-					contentType: 'application/json; charset=utf-8',
-					url: 'http://rohitsonwalkar.com:4242/api/parkingstatus/'+lot+'/'+permit,
-					success: function(data) {
-						if(!jQuery.isEmptyObject(data)) {
-							var items = [];
-							items.push('<div align="center">');
-							$.each(data, function(id, status) {
-							console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
-							items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
-							});
-							$("p2").empty();
-							$( "<ul/>", {
-    							"class": "my-parking-list",
-    							html: items.join( "</div>" )
-  							}).appendTo( "p2" );	
-						} else {
-							$('p2').text('No matching records.');
-						}
-					}	
-					});
-				}
-
+ 					window.location.href='/lot'+lot+'status';
+  				}
   			}
   		</script>
-		<script type='text/javascript'>
-		$('#getparkingstatus').click(function() {
-			$.ajax({
-				type: 'GET',
-				datatype: 'json',
-				url: 'http://rohitsonwalkar.com:4242/api/parkingstatus',
-				success: function(data) {
-					var items = [];
-					items.push('<div align="center">');
-					$.each(data, function(id, status) {
-						console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
-						items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
-					});
-					$("p1").empty();
-					$( "<ul/>", {
-    					"class": "my-new-list",
-    					html: items.join( "</div>" )
-  					}).appendTo( "p1" );		
-				}
-			});
-		});
-		</script>	
 	</body>
 </html>
