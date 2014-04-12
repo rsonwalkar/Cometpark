@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    
+
+<meta charset='utf-8'>
+<meta name='description' content='Cometpark Frontend'>
+<meta name='author' content='Rohit Sonwalkar'>
+ <!--Mobile viewport optimized-->
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<!--<META HTTP-EQUIV="refresh" CONTENT="10">-->
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+
+    <title>Simple markers</title>
+    <style>
+      html, body, #map-canvas {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>  
+    function lotAstatus(){ 
+      var parkingspots = [];
+      $.ajax({
+        type: 'GET',
+        datatype: 'json',
+        contentType: 'application/json; charset=utf-8',
+        url: 'http://localhost:4242/getstatus/A',
+        success: function(data) {   
+          
+            //console.log('Lot C status:' + data);
+            // Loop to fetch details of each parking spot for parking lot A
+            
+            $.each(data, function(id, status) {
+              parkingspots.push({});
+              parkingspots[id].pid = data[id].pid;
+              parkingspots[id].pstatus = data[id].pstatus;
+              parkingspots[id].latlong = data[id].latlong;
+              parkingspots[id].permit = data[id].permit;
+              //console.log('Data in parkingspots: ', parkingspots[id].pid, ' ', parkingspots[id].pstatus, ' ', parkingspots[id].latlong, ' ', parkingspots[id].permit);
+
+            
+
+          });
+
+            /*for(var i = 0; i<parkingspots.length; i++) {
+                console.log('Data in parkingspots: ', parkingspots[i].pid, ' ', parkingspots[i].pstatus, ' ', parkingspots[i].latlong, ' ', parkingspots[i].permit);
+            }*/
+            var mapOptions = {
+                zoom: 18,
+                center: new google.maps.LatLng(parkingspots[1].latlong)//32.9902804, -96.7445921
+              }
+              var map = new google.maps.Map(document.getElementById('map-canvas'),
+                                mapOptions);  
+            for(var i = 0; i<parkingspots.length; i++) {
+            console.log('Data in parkingspots: ', parkingspots[i].pid, ' ', parkingspots[i].pstatus, ' ', parkingspots[i].latlong, ' ', parkingspots[i].permit);  
+          
+    
+              
+              if(parkingspots[i].pstatus == 'vacant') {
+                var image = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';  
+              } else if(parkingspots[i].pstatus == 'occupied') {
+                var image = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';  
+              }
+              //var contentString = '<p>Permit: Green</p>';
+              var contentString = '<p>Permit: '+parkingspots[i].permit+'</p>';
+              var LatLng = new google.maps.LatLng(parkingspots[i].latlong);
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+              var Marker = new google.maps.Marker({
+                position: LatLng,
+                map: map,
+                icon: image,
+                title: parkingspots[i].pid
+              });
+              google.maps.event.addListener(Marker, 'click', function() {
+                infowindow.open(map,Marker);
+              });
+          }     
+    }    
+
+                
+    });
+
+
+}
+console.log('Executing lotAstatus()');
+              google.maps.event.addDomListener(window, 'load', lotAstatus);       
+          
+
+
+      /*var status = {
+                pstatus: 'vacant',
+                latlong: '32.990503, -96.744843',
+                pid: 'A01',
+                permit: 'green'
+              };
+      var mapOptions = {
+                zoom: 18,
+                center: new google.maps.LatLng(32.990503, -96.744843)//32.9902804, -96.7445921
+              };
+              var map = new google.maps.Map(document.getElementById('map-canvas'),
+                                mapOptions);  
+              if(status.pstatus == 'vacant') {
+                var image = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                console.log('In vacant: '+ image);  
+              } else if(status.pstatus == 'occupied') {
+                var image ='http://maps.google.com/mapfiles/ms/icons/red-dot.png';  
+              }
+              //var contentString = '<p>Permit: Green</p>';
+              var contentString = '<p>Permit: '+status.permit+'</p>';
+              console.log('contentString: ', contentString);
+              var LatLng = new google.maps.LatLng(32.990503, -96.744843);
+              var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              });
+              var Marker = new google.maps.Marker({
+                position: LatLng,
+                map: map,
+                icon: image,
+                title: status.pid
+              });
+              google.maps.event.addListener(Marker, 'click', function() {
+                infowindow.open(map,Marker);
+              });
+             
+                    
+                    //window.location.reload(10000);
+    }*/
+    
+    //setInterval(lotAstatus, 5000);
+
+/*LatLongs of parking spots
+32.990268, -96.744283
+32.990248, -96.744330
+32.990234, -96.744378
+32.990218, -96.744433*/
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  </body>
+</html>
+

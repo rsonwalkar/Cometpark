@@ -26,7 +26,7 @@ body {
   left: 0;
   right: 0;
   margin: 2%;
-  background: red;
+  background-color: red;
   /*color: #eee;*/
   color: black;
   text-align: center;
@@ -39,14 +39,14 @@ body {
     float: left;
     /*width: 33.33%;
     height: 33.33%;*/
-    width: 20%;
-    height: 20%;
+    width: 7%;
+    height: 7%;
 }
 
 #A01 {
      background-color: blue
  }
-.button:hover {
+/*.button:hover {
     background-color: green
-}
+}*/
 

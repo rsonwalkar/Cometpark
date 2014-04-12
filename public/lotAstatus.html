@@ -6,6 +6,7 @@
 <meta name='author' content='Rohit Sonwalkar'>
  <!--Mobile viewport optimized-->
 <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<!--<META HTTP-EQUIV="refresh" CONTENT="10">-->
 <script src="//code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <h1>This is the Lot A status.</h1>
@@ -50,10 +51,52 @@
     <div class="outer">
         <div id="A10" class="button">A10</div>
     </div>
-
+    <p></p>
 </div>
 
+<script type='text/javascript'>
+{   
+    lotAstatus();
+    function lotAstatus(){ 
+                   $.ajax({
+                    type: 'GET',
+                    datatype: 'json',
+                    contentType: 'application/json; charset=utf-8',
+                    url: 'http://localhost:4242/getstatus/A',
+                    success: function(data) {
+                        if(data) {
+                        console.log('Lot A status:' + data);
+                        $.each(data, function(id, status) {
+                            console.log(id, ' ', 'Lot: ', status.pid, ' Status: ', status.pstatus);
+                            if(status.permit == 'green') {
+                                $('#'+status.pid).css('color', 'LightGreen');
+                            } else if (status.permit == 'gold') {
+                                $('#'+status.pid).css('color', 'Gold');
+                            } else if (status.permit == 'purple') {
+                                $('#'+status.pid).css('color', 'Indigo');
+                            } else if (status.permit == 'handicap') {
+                                $('#'+status.pid).css('color', 'Yellow');
+                            }
+                            if(status.pstatus == 'vacant') {
+                                $('#'+status.pid).css('background-color', 'green'); 
+                            } else if (status.pstatus == 'occupied') {
+                                $('#'+status.pid).css('background-color', 'red');   
+                            }
+                            
+                        });
+                        } else {
+                            $('p').text('Could not pull Lot A data.');
+                        }
+                    }   
+                    });
+                    
+                    //window.location.reload(10000);
+}
+    setInterval("lotAstatus()", 5000);
+}
 
+
+</script>
 
 
 

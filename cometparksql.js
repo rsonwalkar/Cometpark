@@ -115,6 +115,30 @@ cometpark.get('/lotDstatus', function (req, res) {
 	res.sendfile(__dirname + '/public/lotDstatus.html');
 });
 
+/*cometpark.get('/images/:status', function (req, res) {
+	if(req.params.status == 'vacant') {
+		console.log('vacant');
+		res.sendfile(__dirname + '/public/images/marker_green');	
+	} else if (req.params.status == 'occupied') {
+		res.sendfile(__dirname + '/public/images/marker_red');
+	}
+});*/
+
+cometpark.get('/getstatus/:lot', function (req, res) {
+	  connection.query('SELECT pid, pstatus, permit, lat, longitude FROM parkinglot where plot="' + req.params.lot + '"', function(err, success) {
+	if(!err) {
+		res.statusCode = 200;
+		console.log('Heres the data from parkinglot: ', success);
+		return res.send(success);
+		
+	} else {
+		res.statusCode = 404;
+		console.log('Could not select data from parking lot table and heres why: ', err);
+		return res.send('Could not pull data for that parking spot :(');
+	}
+  });
+});
+
 cometpark.post('/adminpanel/addparkingspot', function(req, res) {
 	console.log('POST body: ', req.body);
 	if(!req.body.hasOwnProperty('lot') || !req.body.hasOwnProperty('permit') || !req.body.hasOwnProperty('id')) {
