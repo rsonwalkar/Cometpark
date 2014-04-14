@@ -47,15 +47,17 @@ function initialize() {
      directionsDisplay.setMap(map);
      directionsDisplay.setPanel(document.getElementById('panel'));
 
-    // Adding Lot D Polygon code
+    // Adding Lot G Polygon code
     var lotcoordinates = [
-    new google.maps.LatLng(32.987245, -96.744011),
-    new google.maps.LatLng(32.987252, -96.745264),
-    new google.maps.LatLng(32.987155, -96.745353),
-    new google.maps.LatLng(32.986302, -96.744198),
-    new google.maps.LatLng(32.986425, -96.744024),
-    new google.maps.LatLng(32.987149, -96.743916),
-    new google.maps.LatLng(32.987245, -96.744011)
+    new google.maps.LatLng(32.988053, -96.747138),
+    new google.maps.LatLng(32.988064, -96.747601),
+    new google.maps.LatLng(32.987994, -96.747612),
+    new google.maps.LatLng(32.987994, -96.747744),
+    new google.maps.LatLng(32.987502, -96.747762),
+    new google.maps.LatLng(32.987499, -96.746918),
+    new google.maps.LatLng(32.987884, -96.746925),
+    new google.maps.LatLng(32.987902, -96.747152),
+    new google.maps.LatLng(32.988053, -96.747138)
   ];
   // Construct the polygon.
   parkinglot = new google.maps.Polygon({
@@ -63,7 +65,7 @@ function initialize() {
     strokeColor: '#FF0000',
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: 'orange',
+    fillColor: 'green',
     fillOpacity: 0.2
   });
   parkinglot.setMap(map);
@@ -71,7 +73,7 @@ function initialize() {
    // Routing code
      var request = {
        origin: coords,
-       destination: new google.maps.LatLng(32.9867826,-96.7444445),//'dallas, tx',
+       destination: new google.maps.LatLng(32.9878055,-96.7470654),//'dallas, tx',
        travelMode: google.maps.DirectionsTravelMode.DRIVING
      };
 
@@ -89,7 +91,7 @@ function initialize() {
         type: 'GET',
         datatype: 'json',
         contentType: 'application/json; charset=utf-8',
-        url: 'http://rohitsonwalkar.com:4242/getstatus/D',
+        url: 'http://rohitsonwalkar.com:4242/getstatus/G',
         success: function(data) {   
             // Loop to fetch details of each parking spot for parking lot A
             $.each(data, function(id, status) {

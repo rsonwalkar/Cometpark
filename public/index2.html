@@ -1,0 +1,192 @@
+
+    <html>
+    <head>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+      <title>Parking Lot A Status</title>
+      <link rel="stylesheet" type="text/css" href="effects.css">
+      <style>
+      html, body, #map {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      
+    </style>
+      <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+       <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type='text/javascript'></script>
+    <script>
+
+function initialize () {
+
+  
+
+      // Generating Map for UT Dallas
+       var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 16,
+          center: new google.maps.LatLng(32.9873382,-96.7504263),//32.9904199,-96.7451339
+          mapTypeId: google.maps.MapTypeId.SATELLITE,
+          //rotateControl: true,
+          zoomControl: false
+        });
+      var polygonarray = [];
+       var polygonmarkerarray = [];
+       var parkinglot;
+       var parkinglotmarker;
+       var closest;
+       var colorarray= ['yellow', 'green', 'red', 'blue', 'indigo', 'coral', 'darksalmon', 'orange', 'deeppink', 'gray'];
+       var lotAcoordinates = [
+    new google.maps.LatLng(32.990019, -96.746751),
+    new google.maps.LatLng(32.989466, -96.746875),
+    new google.maps.LatLng(32.988953, -96.746472),
+    new google.maps.LatLng(32.990213, -96.744246),
+    new google.maps.LatLng(32.990676, -96.744074),
+    new google.maps.LatLng(32.991621, -96.744740),
+    new google.maps.LatLng(32.991860, -96.745233),
+    new google.maps.LatLng(32.990019, -96.746751),
+  ];
+  polygonarray.push(lotAcoordinates);
+  polygonmarkerarray.push('Lot A');
+  var lotBcoordinates = [
+    new google.maps.LatLng(32.990121, -96.743852),
+    new google.maps.LatLng(32.990161, -96.744253),
+    new google.maps.LatLng(32.988818, -96.746523),
+    new google.maps.LatLng(32.988179, -96.746005),
+    new google.maps.LatLng(32.989068, -96.744361),
+    new google.maps.LatLng(32.989208, -96.743779),
+    new google.maps.LatLng(32.990121, -96.743852)
+  ];
+  polygonarray.push(lotBcoordinates);
+  polygonmarkerarray.push('Lot B');
+  var lotCcoordinates = [
+    new google.maps.LatLng(32.988282, -96.744704),
+    new google.maps.LatLng(32.988100, -96.744850),
+    new google.maps.LatLng(32.987739, -96.745456),
+    new google.maps.LatLng(32.987381, -96.745452),
+    new google.maps.LatLng(32.987383, -96.744096),
+    new google.maps.LatLng(32.987606, -96.743849),
+    new google.maps.LatLng(32.988074, -96.743886),
+    new google.maps.LatLng(32.988437, -96.743781),
+    new google.maps.LatLng(32.988578, -96.743932),
+    new google.maps.LatLng(32.988282, -96.744704),
+  ];
+  polygonarray.push(lotCcoordinates);
+  polygonmarkerarray.push('Lot C');
+  var lotDcoordinates = [
+    new google.maps.LatLng(32.987245, -96.744011),
+    new google.maps.LatLng(32.987252, -96.745264),
+    new google.maps.LatLng(32.987155, -96.745353),
+    new google.maps.LatLng(32.986302, -96.744198),
+    new google.maps.LatLng(32.986425, -96.744024),
+    new google.maps.LatLng(32.987149, -96.743916),
+    new google.maps.LatLng(32.987245, -96.744011)
+  ];
+  polygonarray.push(lotDcoordinates);
+  polygonmarkerarray.push('Lot D');
+  var lotGcoordinates = [
+    new google.maps.LatLng(32.988053, -96.747138),
+    new google.maps.LatLng(32.988064, -96.747601),
+    new google.maps.LatLng(32.987994, -96.747612),
+    new google.maps.LatLng(32.987994, -96.747744),
+    new google.maps.LatLng(32.987502, -96.747762),
+    new google.maps.LatLng(32.987499, -96.746918),
+    new google.maps.LatLng(32.987884, -96.746925),
+    new google.maps.LatLng(32.987902, -96.747152),
+    new google.maps.LatLng(32.988053, -96.747138)
+  ];
+  polygonarray.push(lotGcoordinates);
+  polygonmarkerarray.push('Lot G');
+  var lotMWestcoordinates = [
+    new google.maps.LatLng(32.984120, -96.746845),
+    new google.maps.LatLng(32.984138, -96.747683),
+    new google.maps.LatLng(32.983939, -96.747859),
+    new google.maps.LatLng(32.983034, -96.747621),
+    new google.maps.LatLng(32.982989, -96.746897),
+    new google.maps.LatLng(32.984120, -96.746845)
+  ];
+  polygonarray.push(lotMWestcoordinates);
+  polygonmarkerarray.push('Lot M West');
+  var lotMEastcoordinates = [
+    new google.maps.LatLng(32.984160, -96.746703),
+    new google.maps.LatLng(32.983842, -96.746712),
+    new google.maps.LatLng(32.983692, -96.746652),
+    new google.maps.LatLng(32.982981, -96.746669),
+    new google.maps.LatLng(32.982940, -96.745991),
+    new google.maps.LatLng(32.984142, -96.745934),
+    new google.maps.LatLng(32.984160, -96.746703)
+  ];
+  polygonarray.push(lotMEastcoordinates);
+  polygonmarkerarray.push('Lot M East');
+  for(var i=0; i<polygonarray.length; i++) {
+    // Construct the polygon.
+  parkinglot = new google.maps.Polygon({
+    paths: polygonarray[i],
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: colorarray[i],
+    fillOpacity: 0.35
+  });
+  parkinglot.setMap(map);  
+  }
+
+  // Geolocation code
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'You!'
+      });
+
+      map.setCenter(pos);
+    });
+  }
+
+  // Nearest Parking Lot
+  for(var i=0 ; i<polygonarray.length; i++) {
+    var distance=google.maps.geometry.spherical.computeDistanceBetween(polygonarray[i].getPosition(),pos);
+    if(!closest || closest.distance > distance){
+      closest={marker:this,
+               distance:distance}
+    }
+  }
+  if(closest) {
+    google.maps.event.trigger(closest.marker,'click')
+  }
+
+
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+  
+  /*for (var i = 0; polygonmarkerarray.length; i++) {
+   parkinglotmarker = new MarkerWithLabel({
+      position: new google.maps.LatLng(0,0),
+      draggable: false,
+      raiseOnDrag: false,
+      map: map,
+      labelContent: polygonmarkerarray[i],
+      labelAnchor: new google.maps.Point(30, 20),
+      labelClass: "labels", // the CSS class for the label
+      labelStyle: {opacity: 1.0},
+      //icon: "http://placehold.it/1x1",
+      visible: false
+     });  
+  
+   }*/
+
+
+
+//google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</head>
+<body>
+<div id="map"></div>
+    <div id="panel"></div>
+    </body>
+    </html>

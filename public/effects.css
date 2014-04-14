@@ -1,6 +1,6 @@
 body
 {
-	background-color: white;
+	background-color: silver;
 }
 /* selected link */
 h1{
@@ -19,4 +19,18 @@ button:hover{
 	background-color:#E6EFC2;
     border:1px solid #C6D880;
     color:#529214;
+}
+a {
+	text-align: center;
+}
+
+.labels {
+     
+     font-family: "Lucida Grande", "Arial", sans-serif;
+     font-size: 10px;
+     font-weight: bold;
+     text-align: center;
+     width: 65px;     
+     border: 2px solid black;
+     white-space: nowrap;
 }
