@@ -31,6 +31,8 @@
   				<option value="orange">orange</option>
 				</select></br>
 				Parking Spot ID:<input type='text' id='addspotinput' name='addspotinput'></input><br>
+				Parking Spot Lat:<input type='text' id='addlatitude' name='addlatitude'></input><br>
+				Parking Spot Long:<input type='text' id='addlongitude' name='addlongitude'></input><br>
 				<button value='submit' type='submit' onClick='addparkingspot()'>Add</button></br>
 				<p1></p1></br></br>
 		</div>
@@ -64,14 +66,16 @@
   				var lot = document.getElementById('addparkinglot').value;
   				var permit = document.getElementById('addparkingpermit').value;
   				var id = document.getElementById('addspotinput').value;
-  				console.log('Lot: ' + lot + ' Permit:' + permit + ' ID: ' + id);
-  				if(!lot || !permit || !id) {
+  				var latitude = document.getElementById('addlatitude').value;
+  				var longitude = document.getElementById('addlongitude').value;
+  				console.log('Lot: ' + lot + ' Permit:' + permit + ' ID: ' + id + ' Latitude: ' + ' Longitude: ' + longitude);
+  				if(!lot || !permit || !id || !latitude || !longitude) {
   					alert('Oops... You did not fill in the details.');
   				} else {
   					$.ajax({
 					type: 'POST',
 					datatype: 'json',
-					data: JSON.stringify({'lot': lot, 'permit': permit, 'id': id}),
+					data: JSON.stringify({'lot': lot, 'permit': permit, 'id': id, 'latitude': latitude, 'longitude': longitude}),
 					contentType: 'application/json; charset=utf-8',
 					url: 'http://rohitsonwalkar.com:4242/adminpanel/addparkingspot',
 					success: function(data) {

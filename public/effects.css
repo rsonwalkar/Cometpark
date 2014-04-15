@@ -2,6 +2,24 @@ body
 {
 	background-color: silver;
 }
+
+/* unvisited link */
+a:link {
+    color:brown;
+}
+/* visited link */
+a:visited {
+    color:brown;
+}
+/* mouse over link */
+a:hover {
+    color:#FF00FF;
+}
+/* selected link */
+a:active {
+    color:brown;
+}
+
 /* selected link */
 h1{
 	color:OrangeRed;
@@ -25,6 +43,12 @@ button:hover{
     border:1px solid #C6D880;
     color:#529214;
 }
+
+.button {
+    position: absolute:
+    top: 50%;
+}
+
 a {
 	text-align: center;
 }

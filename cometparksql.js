@@ -46,6 +46,7 @@ cometpark.get('/api', function (req, res) {
 });
 
 cometpark.get('/forgotpassword', function (req, res) {
+	console.log('Request query: ', req.query);
 	if(Object.keys(req.query).length == 0) {
 		res.sendfile(__dirname + '/public/forgotpassword.html');
 	} else {
@@ -165,7 +166,7 @@ cometpark.get('/getstatus/:lot', function (req, res) {
 
 cometpark.post('/adminpanel/addparkingspot', function(req, res) {
 	console.log('POST body: ', req.body);
-	if(!req.body.hasOwnProperty('lot') || !req.body.hasOwnProperty('permit') || !req.body.hasOwnProperty('id')) {
+	if(!req.body.hasOwnProperty('lot') || !req.body.hasOwnProperty('permit') || !req.body.hasOwnProperty('id') || !req.body.hasOwnProperty('latitude') || !req.body.hasOwnProperty('longitude')) {
 		res.statusCode = 400;
 		res.type('text/plain');
 		res.send('Error 400 : Cometpark api Admin Panel POST syntax incorrect');
@@ -173,7 +174,7 @@ cometpark.post('/adminpanel/addparkingspot', function(req, res) {
 		connection.query('SELECT * from parkinglot where pid="' + req.body.id + '"', function(err, success) {
 			console.log('Here is what we got from the parkinglot table: ', success);
 			if(!err && Object.keys(success).length == 0) {
-				connection.query('INSERT into parkinglot values ("'+ req.body.lot + '","' + req.body.id + '","vacant","' + req.body.permit + '")', function(err, success) {
+				connection.query('INSERT into parkinglot values ("'+ req.body.lot + '","' + req.body.id + '","vacant","' + req.body.permit + '","' + req.body.latitude + '","' + req.body.longitude +'")', function(err, success) {
 					if(!err) {
 					res.statusCode = 200;
 					console.log('Entry successfully inserted into the parking lot table');
