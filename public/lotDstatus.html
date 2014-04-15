@@ -89,7 +89,7 @@ function initialize() {
         type: 'GET',
         datatype: 'json',
         contentType: 'application/json; charset=utf-8',
-        url: 'http://rohitsonwalkar.com:4242/getstatus/D',
+        url: 'http://localhost:4242/getstatus/D',
         success: function(data) {   
             // Loop to fetch details of each parking spot for parking lot A
             $.each(data, function(id, status) {
@@ -186,6 +186,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
     <div id="map-canvas"></div>
     <div id="panel"></div>
     </br></br>
-      <div><a href='http://rohitsonwalkar.com:4242/'><img src="images/Cancel.png" alt=""/>Home</a></div>
+      <div><a href='http://localhost:4242/'><img src="images/Cancel.png" alt=""/>Home</a></div>
   </body>
 </html>

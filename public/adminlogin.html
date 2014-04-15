@@ -19,12 +19,15 @@
 				<button type='submit' value='submit' onClick='authorize()'>Authorize</button></br>
 				<p1 id="p1"></p1>
 				<p2 id='p2'></p2>
-				<a id='mylink' href='http://localhost:4242/adminpanel'></a>
-			</br></br></br></br></br></br></br></br></br></br></br></br></br></br></br>
-			<a href="http://localhost:4242"><img src="images/Cancel.png" alt=""/>Homepage</a>
+				<a id='mylink' href='http://rohitsonwalkar.com:4242/adminpanel'></a>
+			</br></br>
+				<a href="http://rohitsonwalkar.com:4242/forgotpassword">Forgot Password</a>
+			</br></br></br></br></br></br></br></br></br></br></br></br></br>
+			<a href="http://rohitsonwalkar.com:4242"><img src="images/Cancel.png" alt=""/>Homepage</a>
   		</div>
   		<script type='text/javascript'>
   			function authorize() {
+
   				/*var credentials = JSON.stringify({
   					uname : document.getElementById('username').value,
   					password : document.getElementById('password').value
@@ -39,12 +42,13 @@
 				datatype: 'json',
 				data: {'uname': uname, 'password': password},
 				contentType: 'application/json; charset=utf-8',
-				url: 'http://localhost:4242/adminlogin',
+				url: 'http://rohitsonwalkar.com:4242/adminlogin',
 				success: function(data) {
-					if(!jQuery.isEmptyObject(data)) {
+							//location.reload();
+							if(!jQuery.isEmptyObject(data)) {
 					console.log(data);
 					window.location.href='/adminpanel';
-					//location.href='http://localhost:4242/adminpanel'
+					//location.href='http://rohitsonwalkar.com:4242/adminpanel'
 					//$('p2').empty();
 					//if(jQuery.isEmptyObject(data)) {
 					
@@ -56,7 +60,8 @@
 				} else {
 					$('p2').empty();
 					$('p2').text('Incorrect credentials. Please try again.');
-				}	
+				}
+						
 			}
 				});
 			}

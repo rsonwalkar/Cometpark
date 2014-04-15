@@ -45,6 +45,22 @@ cometpark.get('/api', function (req, res) {
   	res.send('Success. Cometpark API is up and running :)');
 });
 
+cometpark.get('/forgotpassword', function (req, res) {
+	if(Object.keys(req.query).length == 0) {
+		res.sendfile(__dirname + '/public/forgotpassword.html');
+	} else {
+		console.log('Forgot password get request query: ', req.query);
+		connection.query('SELECT password from auth where uname="' + req.query.uname + '" and squestion="' + req.query.squestion + '" and sanswer="' + req.query.sanswer + '"', function(err, success) {
+			if(!err && Object.keys(success).length != 0) {
+				console.log('Retreived password: ', success);
+				return res.send(success);
+			} else {
+				return res.send(success);
+			}
+		});
+	}
+});
+
 // Render a response html page
 cometpark.get('/adminlogin', function (req, res) {
 	if(Object.keys(req.query).length == 0) {

@@ -2,15 +2,14 @@
 	<head>
 		<link rel="stylesheet" type="text/css" href="effects.css">
 		<meta charset='utf-8'>
-		<div align="center">
-  			<h1>Cometpark</h1>
-		</div>
+		<div align="center"><h1>Cometpark</h1></div>
 		<meta name='description' content='Cometpark Frontend'>
 		<meta name='author' content='Rohit Sonwalkar'>
 		 <!--Mobile viewport optimized-->
-		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
 		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-		<iframe src="https://mapsengine.google.com/map/embed?mid=zi3fYm_ZqTmw.kkwCEVGdlrbU" width='100%' height="80%" align='center'></iframe>
+		<div>
+		<iframe src="https://mapsengine.google.com/map/embed?mid=zi3fYm_ZqTmw.kkwCEVGdlrbU" width='80%' height="90%"></iframe></div>
 	</head>
 	<body>
 		<!--<button id='getparkingstatusjson'>Get Parking Status JSON</button>-->
@@ -18,8 +17,8 @@
 			<!--<h3>UT Dallas Parking Vacancy Status</h3>
 			<button id='getparkingstatus'>Parking Status</button>-->
 			<p1></p1>
-  			<h3>UT Dallas Parking Lot Vacancy Status</h3>
-  			<label>Parking Lot:</label>
+  			<h3>UT Dallas Real Time Parking Lot Status</h3>
+  			<label><b>Parking Lot:</b></label>
   			<select id='parkinglot'>
   				<option value="">Select</option>	
   				<option value="A">A</option>
@@ -33,7 +32,7 @@
 			<button value='submit' type='submit' onClick='lotStatus()'>Search Vacancy</button></br>
 			<p2></p2></br></br></br></br></br></br></br></br>
 			<!--<a href='http://rohitsonwalkar.com:4242/adminlogin'>Admin Login</a>-->
-			<a href="http://rohitsonwalkar.com:4242/adminlogin"><img src="images/Login.png" alt=""/>Admin Panel</a>
+			<!--<a href="http://rohitsonwalkar.com:4242/adminlogin"><img src="images/Login.png" alt=""/>Admin Panel</a>-->
   		</div>
   		<script type="text/javascript">
   			function lotStatus() {
