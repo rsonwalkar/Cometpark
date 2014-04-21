@@ -28,7 +28,14 @@
   				<option value="G">G</option>
   				<option value="H">H</option>
 			</select></br>
-			
+			<label><b>Parking Permit:</b></label>
+			<select id='parkingpermit'>
+  				<option value="">Select</option>	
+  				<option value="green">Green</option>
+  				<option value="orange">Orange</option>
+  				<option value="purple">Purple</option>
+  				<option value="gold">Gold</option>
+			</select></br>
 			<button value='submit' type='submit' onClick='lotStatus()'>Search Vacancy</button></br>
 			<p2></p2></br></br></br></br></br></br></br></br>
 			<!--<a href='http://rohitsonwalkar.com:4242/adminlogin'>Admin Login</a>-->
@@ -37,12 +44,13 @@
   		<script type="text/javascript">
   			function lotStatus() {
   				var lot = document.getElementById('parkinglot').value;
-  				console.log('Lot value: '+lot);
+  				var permit = document.getElementById('parkingpermit').value;
+  				console.log('Lot value: '+lot+ ' Permit value: '+permit);
   				
-  				if(!lot) {
-  					alert('Oops... Please select a parking lot to view real time status.');
+  				if(!lot || !permit) {
+  					alert('Oops... Please select a parking lot and permit type to view real time parking status.');
   				} else {
- 					window.location.href='/lot'+lot+'status';
+ 					window.location.href='/lot'+lot+'/'+permit;
   				}
   			}
   		</script>

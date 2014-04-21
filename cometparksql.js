@@ -111,14 +111,160 @@ cometpark.get('/adminlogin', function (req, res) {
 	//res.render('adminpanel.html');
 });*/
 
-// Render a response html page
+// Render a response html page for the admin panel
 cometpark.get('/adminpanel', function (req, res) {
 	res.sendfile(__dirname + '/public/adminpanel.html');	
 });
 
-cometpark.get('/lotAstatus', function (req, res) {
+cometpark.get('/lotA', function (req, res) {
 	res.sendfile(__dirname + '/public/lotAstatus.html');
 });
+
+// Render a response html page for a specific lot A permit
+cometpark.get('/lotA/green', function (req, res) {
+	res.sendfile(__dirname + '/public/lotA/green.html');
+});
+
+cometpark.get('/lotA/orange', function (req, res) {
+	res.sendfile(__dirname + '/public/lotA/orange.html');
+});
+
+cometpark.get('/lotA/purple', function (req, res) {
+	res.sendfile(__dirname + '/public/lotA/purple.html');
+});
+
+cometpark.get('/lotA/gold', function (req, res) {
+	res.sendfile(__dirname + '/public/lotA/gold.html');
+});
+
+cometpark.get('/lotA/handicap', function (req, res) {
+	res.sendfile(__dirname + '/public/lotA/handicap.html');
+});
+
+// Render a response html page for a specific lot B permit
+cometpark.get('/lotB/green', function (req, res) {
+	res.sendfile(__dirname + '/public/lotB/green.html');
+});
+
+cometpark.get('/lotB/orange', function (req, res) {
+	res.sendfile(__dirname + '/public/lotB/orange.html');
+});
+
+cometpark.get('/lotB/purple', function (req, res) {
+	res.sendfile(__dirname + '/public/lotB/purple.html');
+});
+
+cometpark.get('/lotB/gold', function (req, res) {
+	res.sendfile(__dirname + '/public/lotB/gold.html');
+});
+
+cometpark.get('/lotB/handicap', function (req, res) {
+	res.sendfile(__dirname + '/public/lotB/handicap.html');
+});
+
+// Render a response html page for a specific lot C permit
+cometpark.get('/lotC/green', function (req, res) {
+	res.sendfile(__dirname + '/public/lotC/green.html');
+});
+
+cometpark.get('/lotC/orange', function (req, res) {
+	res.sendfile(__dirname + '/public/lotC/orange.html');
+});
+
+cometpark.get('/lotC/purple', function (req, res) {
+	res.sendfile(__dirname + '/public/lotC/purple.html');
+});
+
+cometpark.get('/lotC/gold', function (req, res) {
+	res.sendfile(__dirname + '/public/lotC/gold.html');
+});
+
+cometpark.get('/lotC/handicap', function (req, res) {
+	res.sendfile(__dirname + '/public/lotC/handicap.html');
+});
+
+// Render a response html page for a specific lot B permit
+cometpark.get('/lotD/green', function (req, res) {
+	res.sendfile(__dirname + '/public/lotD/green.html');
+});
+
+cometpark.get('/lotD/orange', function (req, res) {
+	res.sendfile(__dirname + '/public/lotD/orange.html');
+});
+
+cometpark.get('/lotD/purple', function (req, res) {
+	res.sendfile(__dirname + '/public/lotD/purple.html');
+});
+
+cometpark.get('/lotD/gold', function (req, res) {
+	res.sendfile(__dirname + '/public/lotD/gold.html');
+});
+
+cometpark.get('/lotD/handicap', function (req, res) {
+	res.sendfile(__dirname + '/public/lotD/handicap.html');
+});
+
+// Render a response html page for a specific lot G permit
+cometpark.get('/lotG/green', function (req, res) {
+	res.sendfile(__dirname + '/public/lotG/green.html');
+});
+
+cometpark.get('/lotG/orange', function (req, res) {
+	res.sendfile(__dirname + '/public/lotG/orange.html');
+});
+
+cometpark.get('/lotG/purple', function (req, res) {
+	res.sendfile(__dirname + '/public/lotG/purple.html');
+});
+
+cometpark.get('/lotG/gold', function (req, res) {
+	res.sendfile(__dirname + '/public/lotG/gold.html');
+});
+
+cometpark.get('/lotG/handicap', function (req, res) {
+	res.sendfile(__dirname + '/public/lotG/handicap.html');
+});
+
+// Render a response html page for a specific lot H permit
+cometpark.get('/lotH/green', function (req, res) {
+	res.sendfile(__dirname + '/public/lotH/green.html');
+});
+
+cometpark.get('/lotH/orange', function (req, res) {
+	res.sendfile(__dirname + '/public/lotH/orange.html');
+});
+
+cometpark.get('/lotH/purple', function (req, res) {
+	res.sendfile(__dirname + '/public/lotH/purple.html');
+});
+
+cometpark.get('/lotH/gold', function (req, res) {
+	res.sendfile(__dirname + '/public/lotH/gold.html');
+});
+
+cometpark.get('/lotH/handicap', function (req, res) {
+	res.sendfile(__dirname + '/public/lotH/handicap.html');
+});
+
+/*cometpark.get('/lotA/:permit', function (req, res) {
+	
+	if(req.params.permit == 'green') {
+		console.log('Getting you the lot A green permit page.');
+		console.log('Lot A green get request: ' , req);
+		res.sendfile(__dirname + '/public/lotA/green.html');
+	} else if(req.params.permit == 'orange') {
+		res.sendfile(__dirname + '/public/lotAorangestatus.html');
+	} else if(req.params.permit == 'purple') {
+		res.sendfile(__dirname + '/public/lotApurplestatus.html');
+	} else if(req.params.permit == 'gold') {
+		res.sendfile(__dirname + '/public/lotAgoldstatus.html');
+	}
+});*/
+
+/*cometpark.get('/lotAstatus', function (req, res) {
+	res.sendfile(__dirname + '/public/lotAstatus.html');
+});*/
+
 
 cometpark.get('/lotBstatus', function (req, res) {
 	res.sendfile(__dirname + '/public/lotBstatus.html');
@@ -150,12 +296,27 @@ cometpark.get('/lotGstatus', function (req, res) {
 });*/
 
 cometpark.get('/getstatus/:lot', function (req, res) {
+	console.log('Called the getstatus route.');
 	  connection.query('SELECT pid, pstatus, permit, lat, longitude FROM parkinglot where plot="' + req.params.lot + '"', function(err, success) {
 	if(!err) {
 		res.statusCode = 200;
 		console.log('Heres the data from parkinglot: ', success);
 		return res.send(success);
-		
+	} else {
+		res.statusCode = 404;
+		console.log('Could not select data from parking lot table and heres why: ', err);
+		return res.send('Could not pull data for that parking spot :(');
+	}
+  });
+});
+
+cometpark.get('/getstatus/:lot/:permit', function (req, res) {
+	console.log('Called the getstatus route.');
+	  connection.query('SELECT pid, pstatus, lat, longitude FROM parkinglot where plot="' + req.params.lot + '" and permit="' + req.params.permit +'"', function(err, success) {
+	if(!err) {
+		res.statusCode = 200;
+		console.log('Heres the data from parkinglot: ', success);
+		return res.send(success);
 	} else {
 		res.statusCode = 404;
 		console.log('Could not select data from parking lot table and heres why: ', err);
