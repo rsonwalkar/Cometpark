@@ -34,12 +34,12 @@ function lotstatus(callback) {
         type: 'GET',
         datatype: 'json',
         contentType: 'application/json; charset=utf-8',
-        url: 'http://rohitsonwalkar.com:4242/getstatus/I03',
+        url: 'http://rohitsonwalkar.com:4242/getstatus/I/green',
         success: function(data) {   
             // Loop to fetch details of each parking spot for parking lot A
               
-              
-              parkingstatus = data[0].pstatus;
+              console.log('Data: ', data[2]);
+              parkingstatus = data[2].pstatus;
           
 
         
@@ -88,7 +88,7 @@ function initialize() {
   lotstatus(function(status) {
     console.log('Parking status: ', status);
 
-      var I03coordinates = [
+      var I02coordinates = [
     new google.maps.LatLng(32.986406, -96.752530),
     new google.maps.LatLng(32.986406, -96.752552),
     new google.maps.LatLng(32.986365, -96.752553),
@@ -96,16 +96,37 @@ function initialize() {
     new google.maps.LatLng(32.986406, -96.752530),
   ];
   
-  I03 = new google.maps.Polygon({
-    paths: I03coordinates,
+  I02 = new google.maps.Polygon({
+    paths: I02coordinates,
     strokeColor: status,
     strokeOpacity: 0.8,
     strokeWeight: 2,
     fillColor: status,
-    fillOpacity: 0.8
+    fillOpacity: 0.6
+  });
+  I02.setMap(map);
+  });
+
+var I03coordinates = [
+    //new google.maps.LatLng(32.986404, -96.752495),
+    new google.maps.LatLng(32.986406, -96.752495),
+    //new google.maps.LatLng(32.986403, -96.752522),
+    new google.maps.LatLng(32.986406, -96.752522),
+    new google.maps.LatLng(32.986367, -96.752520),
+    new google.maps.LatLng(32.986366, -96.752495),
+    new google.maps.LatLng(32.986404, -96.752495),
+  ];
+
+  I03 = new google.maps.Polygon({
+    paths: I03coordinates,
+    strokeColor: 'green',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: 'green',
+    fillOpacity: 0.6
   });
   I03.setMap(map);
-  });
+
   //console.log('After calling lotstatus, vacancy status'+ parkingstatus);
   // The custom USGSOverlay object contains the USGS image,
   // the bounds of the image, and a reference to the map.
