@@ -116,9 +116,7 @@ cometpark.get('/adminpanel', function (req, res) {
 	res.sendfile(__dirname + '/public/adminpanel.html');	
 });
 
-cometpark.get('/lotA', function (req, res) {
-	res.sendfile(__dirname + '/public/lotAstatus.html');
-});
+
 
 // Render a response html page for a specific lot A permit
 cometpark.get('/lotA/green', function (req, res) {
@@ -246,6 +244,27 @@ cometpark.get('/lotH/handicap', function (req, res) {
 	res.sendfile(__dirname + '/public/lotH/handicap.html');
 });
 
+// Render a response html page for a specific lot I permit
+cometpark.get('/lotI/green', function (req, res) {
+	res.sendfile(__dirname + '/public/lotI/green.html');
+});
+
+cometpark.get('/lotI/orange', function (req, res) {
+	res.sendfile(__dirname + '/public/lotI/orange.html');
+});
+
+cometpark.get('/lotI/purple', function (req, res) {
+	res.sendfile(__dirname + '/public/lotI/purple.html');
+});
+
+cometpark.get('/lotI/gold', function (req, res) {
+	res.sendfile(__dirname + '/public/lotI/gold.html');
+});
+
+cometpark.get('/lotI/handicap', function (req, res) {
+	res.sendfile(__dirname + '/public/lotI/handicap.html');
+});
+
 /*cometpark.get('/lotA/:permit', function (req, res) {
 	
 	if(req.params.permit == 'green') {
@@ -264,6 +283,10 @@ cometpark.get('/lotH/handicap', function (req, res) {
 /*cometpark.get('/lotAstatus', function (req, res) {
 	res.sendfile(__dirname + '/public/lotAstatus.html');
 });*/
+
+cometpark.get('/lotAstatus', function (req, res) {
+	res.sendfile(__dirname + '/public/lotAstatus.html');
+});
 
 
 cometpark.get('/lotBstatus', function (req, res) {
@@ -286,6 +309,10 @@ cometpark.get('/lotGstatus', function (req, res) {
 	res.sendfile(__dirname + '/public/lotGstatus.html');
 });
 
+cometpark.get('/lotIstatus', function (req, res) {
+	res.sendfile(__dirname + '/public/lotIstatus.html');
+});
+
 /*cometpark.get('/images/:status', function (req, res) {
 	if(req.params.status == 'vacant') {
 		console.log('vacant');
@@ -294,6 +321,21 @@ cometpark.get('/lotGstatus', function (req, res) {
 		res.sendfile(__dirname + '/public/images/marker_red');
 	}
 });*/
+
+cometpark.get('/getstatus/:id', function (req, res) {
+	console.log('Called the getstatus route.');
+	  connection.query('SELECT pstatus FROM parkinglot where pid="' + req.params.id + '"', function(err, success) {
+	if(!err) {
+		res.statusCode = 200;
+		console.log('Heres the data from parkinglot: ', success);
+		return res.send(success);
+	} else {
+		res.statusCode = 404;
+		console.log('Could not select data from parking lot table and heres why: ', err);
+		return res.send('Could not pull data for that parking spot :(');
+	}
+  });
+});
 
 cometpark.get('/getstatus/:lot', function (req, res) {
 	console.log('Called the getstatus route.');

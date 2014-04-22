@@ -58,7 +58,7 @@
 		</div>
 		<div>
 			</br></br></br></br></br>
-			<a href='http://localhost:4242/'><img src="images/Cancel.png" alt=""/>Logout</a>
+			<a href='http://rohitsonwalkar.com:4242/'><img src="images/Cancel.png" alt=""/>Logout</a>
 		</div>
   		
 		<script type="text/javascript">
@@ -77,7 +77,7 @@
 					datatype: 'json',
 					data: JSON.stringify({'lot': lot, 'permit': permit, 'id': id, 'latitude': latitude, 'longitude': longitude}),
 					contentType: 'application/json; charset=utf-8',
-					url: 'http://localhost:4242/adminpanel/addparkingspot',
+					url: 'http://rohitsonwalkar.com:4242/adminpanel/addparkingspot',
 					success: function(data) {
 						console.log(data);
 						if(data === 'Entry successfully inserted into the system :)') {
@@ -122,7 +122,7 @@
 					datatype: 'json',
 					data: JSON.stringify({'id': parkingspot}),
 					contentType: 'application/json; charset=utf-8',
-					url: 'http://localhost:4242/adminpanel/deleteparkingspot',
+					url: 'http://rohitsonwalkar.com:4242/adminpanel/deleteparkingspot',
 					success: function(data) {
 						console.log('Here is the data from post: '+data);
 						//if(jQuery.isEmptyObject(data)) {
@@ -152,7 +152,7 @@
 					datatype: 'json',
 					data: JSON.stringify({'permit': permit, 'id': parkingspot}),
 					contentType: 'application/json; charset=utf-8',
-					url: 'http://localhost:4242/adminpanel/modifyparkingspot',
+					url: 'http://rohitsonwalkar.com:4242/adminpanel/modifyparkingspot',
 					success: function(data) {
 					//if(jQuery.isEmptyObject(data)) {
 						//var items = [];

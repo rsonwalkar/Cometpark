@@ -3,23 +3,13 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="../effects.css">
-    <div align="center"><h1>Lot G <font color='green'>Green</font></h1></div>
+    <link rel="stylesheet" type="text/css" href="effects.css">
     <title>Cometpark</title>
     <style>
       html, body, #map-canvas {
-        width: 95%; height: 95%; margin: 0px auto ; 
-      }
-      /*#outerdiv{
-        width: 100%; height: 95%; display: inline-block;
-      }*/
-      #panel {
-        height: 80;
-        width: 80;
-        position: center;
-        background-color: silver;
-        padding: 5px;
-        border: 1px solid #999;
+        height: 100%;
+        margin: 0px;
+        padding: 0px
       }
     </style>
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -57,17 +47,17 @@ function initialize() {
      directionsDisplay.setMap(map);
      directionsDisplay.setPanel(document.getElementById('panel'));
 
-    // Adding Lot G Polygon code
+    // Adding Lot I Polygon code
     var lotcoordinates = [
-    new google.maps.LatLng(32.988053, -96.747138),
-    new google.maps.LatLng(32.988064, -96.747601),
-    new google.maps.LatLng(32.987994, -96.747612),
-    new google.maps.LatLng(32.987994, -96.747744),
-    new google.maps.LatLng(32.987502, -96.747762),
-    new google.maps.LatLng(32.987499, -96.746918),
-    new google.maps.LatLng(32.987884, -96.746925),
-    new google.maps.LatLng(32.987902, -96.747152),
-    new google.maps.LatLng(32.988053, -96.747138)
+    new google.maps.LatLng(32.986765, -96.752314),
+    new google.maps.LatLng(32.986794, -96.753701),
+    new google.maps.LatLng(32.985931, -96.753687),
+    new google.maps.LatLng(32.985927, -96.753405),
+    new google.maps.LatLng(32.985765, -96.753406),
+    new google.maps.LatLng(32.985749, -96.752171),
+    new google.maps.LatLng(32.986205, -96.752189),
+    new google.maps.LatLng(32.986214, -96.752304),
+    new google.maps.LatLng(32.986765, -96.752314)
   ];
   // Construct the polygon.
   parkinglot = new google.maps.Polygon({
@@ -75,7 +65,7 @@ function initialize() {
     strokeColor: '#FF0000',
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: 'green',
+    fillColor: 'purple',
     fillOpacity: 0.2
   });
   parkinglot.setMap(map);
@@ -83,7 +73,7 @@ function initialize() {
    // Routing code
      var request = {
        origin: coords,
-       destination: new google.maps.LatLng(32.9878055,-96.7470654),//'dallas, tx',
+       destination: new google.maps.LatLng(32.986171, -96.752966),//'dallas, tx',
        travelMode: google.maps.DirectionsTravelMode.DRIVING
      };
 
@@ -101,7 +91,7 @@ function initialize() {
         type: 'GET',
         datatype: 'json',
         contentType: 'application/json; charset=utf-8',
-        url: 'http://rohitsonwalkar.com:4242/getstatus/G/green',
+        url: 'http://rohitsonwalkar.com:4242/getstatus/I',
         success: function(data) {   
             // Loop to fetch details of each parking spot for parking lot A
             $.each(data, function(id, status) {
@@ -126,11 +116,24 @@ function initialize() {
           clearOverlays()
           for (var i = 0; i < parkingspots.length; i++) {
             console.log(parkingspots[i].pid, ' ', parkingspots[i].pstatus, ' ', parkingspots[i].lat);
-            if(parkingspots[i].pstatus == 'vacant') {
-              image = '/images/marker_green.png';
-            } else if(parkingspots[i].pstatus == 'occupied') {
-              image = '/images/marker_red.png';
-            }
+            if(parkingspots[i].pstatus == 'vacant' && parkingspots[i].permit == 'green') {
+                //var image = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
+                 image = '/images/green-green.png';  
+              } else if (parkingspots[i].pstatus == 'vacant' && parkingspots[i].permit == 'orange') {
+                 image = '/images/green-orange.png';
+              } else if (parkingspots[i].pstatus == 'vacant' && parkingspots[i].permit == 'gold') {
+                 image = '/images/green-gold.png';
+              } else if (parkingspots[i].pstatus == 'vacant' && parkingspots[i].permit == 'purple') {
+                 image = '/images/green-purple.png';
+              } else if (parkingspots[i].pstatus == 'occupied' && parkingspots[i].permit == 'green') {
+                 image = '/images/red-green.png';
+              } else if (parkingspots[i].pstatus == 'occupied' && parkingspots[i].permit == 'orange') {
+                 image = '/images/red-orange.png';
+              } else if (parkingspots[i].pstatus == 'occupied' && parkingspots[i].permit == 'gold') {
+                 image = '/images/red-gold.png';
+              } else if(parkingspots[i].pstatus == 'occupied' && parkingspots[i].permit == 'purple') {
+                 image = '/images/red-purple.png';    
+              }
               //Adding parking permit type information to the info window of a parking spot marker
               var contentString = '<p>Permit: '+parkingspots[i].permit+'</p>';
               spotposition = new google.maps.LatLng(parkingspots[i].lat, parkingspots[i].longitude);
@@ -191,6 +194,6 @@ $(window).on('resize', function() {
     <div id="map-canvas"></div>
     <div id="panel"></div>
     </br></br>
-      <div><a href='http://rohitsonwalkar.com:4242/'><img src="../images/Cancel.png" alt=""/>Home</a></div>
+      <div><a href='http://rohitsonwalkar.com:4242/'><img src="images/Cancel.png" alt=""/>Home</a></div>
   </body>
 </html>
