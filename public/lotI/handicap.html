@@ -4,7 +4,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="../effects.css">
-    <div align="center"><h1>Lot A <font color='darkblue'>Handicap</font></h1></div>
+    <div align="center"><h1>Lot I <font color='darkblue'>Handicap</font></h1></div>
     <title>Cometpark</title>
     <style>
       html, body, #map-canvas {
@@ -128,12 +128,9 @@ function initialize() {
             console.log(parkingspots[i].pid, ' ', parkingspots[i].pstatus, ' ', parkingspots[i].lat);
             if(parkingspots[i].pstatus == 'vacant') {
               image = '/images/marker_green.png';
-            } else if(parkingspots[i].pstatus == 'occupied') {
-              image = '/images/marker_red.png';
-            }
-              //Adding parking permit type information to the info window of a parking spot marker
-              var contentString = '<p>Permit: '+parkingspots[i].permit+'</p>';
+              var contentString = '<p>Parking Spot: '+parkingspots[i].pid+'</p>';
               spotposition = new google.maps.LatLng(parkingspots[i].lat, parkingspots[i].longitude);
+              console.log('Image is: ', image);
           marker = new google.maps.Marker({
             position: spotposition,
             map: map,
@@ -141,7 +138,6 @@ function initialize() {
             title: parkingspots[i].pid
           });
           markers.push(marker);
-          //console.log('Markers array: ', markers[i]);
 
           google.maps.event.addListener(marker, 'click', (function(marker, i, contentString) {
             return function() {
@@ -150,6 +146,29 @@ function initialize() {
             }
           })(marker,i, contentString)); 
           markerBounds.extend(spotposition);
+            } /*else if(parkingspots[i].pstatus == 'occupied') {
+              image = '/images/marker_red.png';
+            }*/
+              //Adding parking permit type information to the info window of a parking spot marker
+              /*var contentString = '<p>Permit: '+parkingspots[i].permit+'</p>';
+              spotposition = new google.maps.LatLng(parkingspots[i].lat, parkingspots[i].longitude);
+              console.log('Image is: ', image);
+          marker = new google.maps.Marker({
+            position: spotposition,
+            map: map,
+            icon: image,
+            title: parkingspots[i].pid
+          });
+          markers.push(marker);*/
+          //console.log('Markers array: ', markers[i]);
+
+          /*google.maps.event.addListener(marker, 'click', (function(marker, i, contentString) {
+            return function() {
+              infowindow.setContent(contentString);
+              //infowindow.open(map, marker);
+            }
+          })(marker,i, contentString)); 
+          markerBounds.extend(spotposition);*/
         }
         
         // Deleting all the markers from the map

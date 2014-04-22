@@ -322,9 +322,26 @@ cometpark.get('/lotIstatus', function (req, res) {
 	}
 });*/
 
-cometpark.get('/getstatus/:id', function (req, res) {
+/*cometpark.get('/getstatus/:id', function (req, res) {
 	console.log('Called the getstatus route.');
 	  connection.query('SELECT pstatus FROM parkinglot where pid="' + req.params.id + '"', function(err, success) {
+	if(!err) {
+		res.statusCode = 200;
+		console.log('Heres the data from parkinglot: ', success);
+		return res.send(success);
+	} else {
+		res.statusCode = 404;
+		console.log('Could not select data from parking lot table and heres why: ', err);
+		return res.send('Could not pull data for that parking spot :(');
+	}
+  });
+});*/
+
+
+
+cometpark.get('/getstatus/:lot/:permit', function (req, res) {
+	console.log('Called the getstatus route with lot and permit. Req param is: ', req.params.lot);
+	  connection.query('SELECT pid, pstatus, lat, longitude FROM parkinglot where plot="' + req.params.lot + '" and permit="' + req.params.permit +'"', function(err, success) {
 	if(!err) {
 		res.statusCode = 200;
 		console.log('Heres the data from parkinglot: ', success);
@@ -338,23 +355,8 @@ cometpark.get('/getstatus/:id', function (req, res) {
 });
 
 cometpark.get('/getstatus/:lot', function (req, res) {
-	console.log('Called the getstatus route.');
+	console.log('Called the getstatus route with lot. Req param is: ', req.params.lot);
 	  connection.query('SELECT pid, pstatus, permit, lat, longitude FROM parkinglot where plot="' + req.params.lot + '"', function(err, success) {
-	if(!err) {
-		res.statusCode = 200;
-		console.log('Heres the data from parkinglot: ', success);
-		return res.send(success);
-	} else {
-		res.statusCode = 404;
-		console.log('Could not select data from parking lot table and heres why: ', err);
-		return res.send('Could not pull data for that parking spot :(');
-	}
-  });
-});
-
-cometpark.get('/getstatus/:lot/:permit', function (req, res) {
-	console.log('Called the getstatus route.');
-	  connection.query('SELECT pid, pstatus, lat, longitude FROM parkinglot where plot="' + req.params.lot + '" and permit="' + req.params.permit +'"', function(err, success) {
 	if(!err) {
 		res.statusCode = 200;
 		console.log('Heres the data from parkinglot: ', success);
