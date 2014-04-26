@@ -1,20 +1,21 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <link rel="StyleSheet" href="style.css" type = "text/css"/>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-        <script language="javascript" type="text/javascript">
-            // Ajax code for Lot I sidebar
-            $(document).ready(function() {
-                $("#sidebar").hide();
-                $("#sidebarButton").click(function() {
-                    $("#sidebar").toggle();
-                });
-            });
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="effects.css">
+    <div align="center"><h1>Lot I Vacancy Status</h1></div>
+    <title>Cometpark</title>
+    <style>
+      html, body, #map-canvas {
+        width: 95%; height: 95%; margin: 0px auto ; 
+      }
+    </style>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type='text/javascript'>
 
-            // Code to display Lot I real time parking status
-            function initialize() {
+function initialize() {
 
   // Geolocation code to locate the real-time location of the driver
   if (navigator.geolocation) { //Checks if browser supports geolocation
@@ -23,9 +24,9 @@
      var longitude = position.coords.longitude;                 //location
      var coords = new google.maps.LatLng(latitude, longitude); //Creates variable for map coordinates
      var directionsService = new google.maps.DirectionsService();
-     var directionsDisplay = new google.maps.DirectionsRenderer();
+     var directionsDisplay = new google.maps.DirectionsRenderer({suppressMarkers: true});
         // Start/Finish icons
-      //var directionicon = 'http://rohitsonwalkar.com:4242/images/car.png'
+      var directionicon = 'http://rohitsonwalkar.com:4242/images/car.png'
      var mapOptions = //Sets map options
      {
        zoom: 21,  //Sets zoom level (0-21)
@@ -37,7 +38,7 @@
        },
        mapTypeId: google.maps.MapTypeId.HYBRID //sets type of map Options:ROADMAP, SATELLITE, HYBRID, TERRIAN
      };
-     map = new google.maps.Map( /*creates Map variable*/ document.getElementById("section"), mapOptions /*Creates a new map using the passed optional parameters in the mapOptions parameter.*/);
+     map = new google.maps.Map( /*creates Map variable*/ document.getElementById("map-canvas"), mapOptions /*Creates a new map using the passed optional parameters in the mapOptions parameter.*/);
      var infowindow = new google.maps.InfoWindow({
         map: map,
         position: coords,
@@ -80,8 +81,30 @@
      directionsService.route(request, function (response, status) {
        if (status == google.maps.DirectionsStatus.OK) {
          directionsDisplay.setDirections(response);
+         var leg = response.routes[0].legs[0];
+         console.log('Leg info: ', leg);
+         makeMarker(leg.start_location, leg.start_address, directionicon, 'Start');
+         makeMarker(leg.end_location, leg.end_address,directionicon, 'Stop');
        }
      });
+
+     function makeMarker(position, address, icon, title) {
+      var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        icon: icon,
+        title: title
+      });
+
+      // Setting info box for the route markers
+     google.maps.event.addListener(marker, 'click', (function(marker, address) {
+            return function() {
+              infowindow.setContent(address);
+              infowindow.open(map, marker);
+            }
+          })(marker, address)); 
+     }
+
      
 
      var markers = [];
@@ -116,30 +139,20 @@
         //for (i = 0; i < locations.length; i++) {
           // Deleting old markers
           clearOverlays()
-          $("#green").empty();
-          $("#orange").empty();
-          $("#purple").empty();
-          $("#gold").empty();
-          $("#handicap").empty();
           for (var i = 0; i < parkingspots.length; i++) {
             console.log(parkingspots[i].pid, ' ', parkingspots[i].pstatus, ' ', parkingspots[i].lat);
             if(parkingspots[i].pstatus == 'vacant') {
               if(parkingspots[i].permit == 'green') {
                 //var image = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
-                 image = '/images/marker_green.png'; 
-                 $("#green").append(parkingspots[i].pid+"</br>"); 
+                 image = '/images/marker_green.png';  
               } else if (parkingspots[i].permit == 'orange') {
                  image = '/images/marker_orange.png';
-                 $("#orange").html(parkingspots[i].pid+"</br>");
               } else if (parkingspots[i].permit == 'gold') {
                  image = '/images/marker_yellow.png';
-                 $("#gold").html(parkingspots[i].pid+"</br>");
               } else if (parkingspots[i].permit == 'purple') {
                  image = '/images/marker_purple.png';
-                 $("#purple").html(parkingspots[i].pid+"</br>");
               } else if (parkingspots[i].permit == 'handicap') {
                  image = '/images/marker_blue.png';
-                 $("#handicap").html(parkingspots[i].pid+"</br>");
               } 
               //Adding parking permit type information to the info window of a parking spot marker
               var contentString = '<p>Parking Spot: '+parkingspots[i].pid+'</p>';
@@ -197,31 +210,13 @@ $(window).on('resize', function() {
     google.maps.event.trigger(map, 'resize');
     map.setCenter(currCenter);
   });
-        </script>
 
-        <title>CometPark</title>
-    </head>
-    <body>
-        <header>
-            <header>
-            <div id="sidebarButton"></div>
-            <div id="headerTitle"><a href="http://rohitsonwalkar.com:4242">CometPark</a></div>
-        </header>
-        </header>
-        <div id="sidebar">
-            <div id="sidebarTitle">Lot I Vacancy Status</div>
-            <div class="sidebarText">Green</div>
-            <div id='green' class="sidebarText"></div>
-            <div class="sidebarText">Orange</div>
-            <div id='orange' class="sidebarText"></div>
-            <div class="sidebarText">Purple</div>
-            <div id='purple' class="sidebarText"></div>
-            <div class="sidebarText">Gold</div>
-            <div id='gold' class="sidebarText"></div>
-            <div class="sidebarText">Handicap</div>
-            <div id='handicap' class="sidebarText"></div>
-        </div>
-        <section id="section"></section>
-        <footer>CometPark &copy;2014</footer>
-    </body>
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+    <div id="panel"></div>
+    </br></br>
+      <div><a href='http://rohitsonwalkar.com:4242/'><img src="images/Cancel.png" alt=""/>Home</a></div>
+  </body>
 </html>

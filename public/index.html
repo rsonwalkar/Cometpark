@@ -1,33 +1,25 @@
-
-    <html>
+<html>
     <head>
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-      <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
-      <div align="center"><h1>Cometpark</h1></div>
-      <link rel="stylesheet" type="text/css" href="effects.css">
-      <style>
-      #map {
-        width: 85%; height: 95%; margin: 0px auto; 
-      }
-      /*#outerdiv{
-        width: 100%; height: 90%; display: inline-block;
-      }*/
-      
-    </style>
-    <div id='outerdiv'>
-    <div id='map'></div>
-  </div>
-      <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-       <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    <script type='text/javascript'></script>
-    <script>
+        <link rel="StyleSheet" href="style.css" type = "text/css"/>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script language="javascript" type="text/javascript">
+            // Ajax code to handle sidebar toggle
+            $(document).ready(function() {
+                $("#sidebar").hide();
+                $("#sidebarButton").click(function() {
+                    $("#sidebar").toggle();
+                });
+            });
 
-function initialize () {
+            // UT Dallas map code with parking lots represented by polygons
+            function initialize () {
 
   
 
       // Generating Map for UT Dallas
-       var map = new google.maps.Map(document.getElementById('map'), {
+       var map = new google.maps.Map(document.getElementById('section'), {
           zoom: 16,
           center: new google.maps.LatLng(32.9873382,-96.7504263),//32.9904199,-96.7451339
           mapTypeId: google.maps.MapTypeId.MAP,
@@ -345,84 +337,38 @@ for(var i=0; i<parkinglotarray.length; i++) {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
-  
-  /*for (var i = 0; polygonmarkerarray.length; i++) {
-   parkinglotmarker = new MarkerWithLabel({
-      position: new google.maps.LatLng(0,0),
-      draggable: false,
-      raiseOnDrag: false,
-      map: map,
-      labelContent: polygonmarkerarray[i],
-      labelAnchor: new google.maps.Point(30, 20),
-      labelClass: "labels", // the CSS class for the label
-      labelStyle: {opacity: 1.0},
-      //icon: "http://placehold.it/1x1",
-      visible: false
-     });  
-  
-   }*/
 
-
-
-//google.maps.event.addDomListener(window, 'load', initialize);
-
-        function lotStatus() {
-          var lot = document.getElementById('parkinglot').value;
-          var permit = document.getElementById('parkingpermit').value;
-          console.log('Lot value: '+lot+ ' Permit value: '+permit);
-          
-          if(!lot || !permit) {
-            alert('Oops... Please select a parking lot and permit type to view real time parking status.');
-          } else {
-          window.location.href='/lot'+lot+'/'+permit;
-          }
-        }
-
-    $(window).on('resize', function() {
+// Ajax code to set the map center after resizing the window
+$(window).on('resize', function() {
     var currCenter = map.getCenter();
     google.maps.event.trigger(map, 'resize');
     map.setCenter(currCenter);
   });
-</script>
-</head>
-<body>
-  
-    <!--<div>
-      <p1></p1>
-        <h3>UT Dallas Real Time Parking Lot Status</h3>
-        <label><b>Parking Lot:</b></label>
-        <select id='parkinglot'>
-          <option value="">Select</option>  
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
-          <option value="G">G</option>
-          <option value="H">H</option>
-          <option value="I">I</option>
-          <option value="J">J</option>
-          <option value="K">K</option>
-          <option value="M">M</option>
-          <option value="R">R</option>
-          <option value="S">S</option>
-          <option value="T">T</option>
-          <option value="V">V</option>
-          <option value="W">W</option>
-      </select></br>
-      <label><b>Parking Permit:</b></label>
-      <select id='parkingpermit'>
-          <option value="">Select</option>  
-          <option value="green">Green</option>
-          <option value="orange">Orange</option>
-          <option value="purple">Purple</option>
-          <option value="gold">Gold</option>
-          <option value="handicap">Handicap</option>
-      </select></br>
-      <button value='submit' type='submit' onClick='lotStatus()'>Search Vacancy</button></br>
-      <p2></p2></br></br></br></br></br></br></br></br>-->
-      <!--<a href='http://rohitsonwalkar.com:4242/adminlogin'>Admin Login</a>-->
-      <!--<a href="http://rohitsonwalkar.com:4242/adminlogin"><img src="images/Login.png" alt=""/>Admin Panel</a>-->
-      <!--</div>-->
-</body>
+        </script>
+
+        <title>CometPark</title>
+    </head>
+    <body>
+        <header>
+            <div id="sidebarButton"></div>
+            <div id="headerTitle"><a href="http://rohitsonwalkar.com:4242">CometPark</a></div>
+        </header>
+        <div id="sidebar">
+            <div id="sidebarTitle">UT Dallas Parking Lots</div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotAstatus">Lot A</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotBstatus">Lot B</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotCstatus">Lot C</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotDstatus">Lot D</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotGstatus">Lot G</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotHstatus">Lot H</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotIstatus">Lot I</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotMWstatus">Lot M West</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotMEstatus">Lot M East</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotRstatus">Lot R</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotVstatus">Lot V</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotWstatus">Lot W</a></div>
+        </div>
+        <section id="section"></section>
+        <footer>CometPark &copy;2014</footer>
+    </body>
 </html>

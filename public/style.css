@@ -1,0 +1,128 @@
+body {
+    color: #000000;
+    font-size: 12px;
+    font-family: Verdana;
+    text-align: center;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    z-index: 1;
+}
+
+a {
+    color: #c75b12;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #c75b12;
+}
+
+header {
+    color: #c75b12;
+    font-size: 30px;
+    text-align: left;
+    height: 60px;
+    width: auto;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    border-bottom-color: #008542;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    z-index: 1;
+}
+
+header #headertitle {
+    position: relative;
+    float: left;
+    margin: 0px;
+    padding: 10px;
+    z-index: 1;
+}
+
+header #sidebarButton {
+    background-image: url('../images/sidebar.png');
+    background-repeat: no-repeat;
+    height: 25px;
+    width: 25px;
+    position: relative;
+    float: left;
+    margin-top: 17px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    margin-right: 5px;
+    padding: 0px;
+    z-index: 1;
+}
+
+section {
+    height: 70%;
+    width: auto;
+    position: relative;
+    overflow: auto;
+    margin: 50px;
+    padding: 0px;
+    border-color: #008542;
+    border-style: solid;
+    border-width: 1px;
+    z-index: 1;
+}
+
+#sidebar {
+    background-color: #008542;
+    height: 450px;
+    width: 300px;
+    position: fixed;
+    left: 0px;
+    top: 60px;
+    margin: 0px;
+    padding: 0px;
+    z-index: 2;
+}
+
+#sidebar #sidebarTitle {
+    color: #ffffff;
+    font-size: 16px;
+    text-align: left;
+    position: relative;
+    margin: 0px;
+    padding: 25px;
+    z-index: 1;
+}
+
+#sidebar .sidebarText {
+    color: #ffffff;
+    font-size: 12px;
+    text-align: left;
+    position: relative;
+    margin: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 25px;
+    padding-right: 0px;
+    z-index: 1;
+}
+
+#sidebar .sidebarText a {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+#sidebar .sidebarText a:hover {
+    color: #ffffff;
+}
+
+footer {
+    font-size: 11px;
+    line-height: 20px;
+    height: 25px;
+    width: auto;
+    position: relative;
+    margin: 0px;
+    padding: 10px;
+    border-top-color: #008542;
+    border-top-style: solid;
+    border-top-width: 1px;
+    z-index: 1;
+}
