@@ -1,0 +1,63 @@
+<html>
+<head>
+    <style>
+      html, body, #map-canvas {
+        width: 95%; height: 95%; margin: 0px auto ; 
+      }
+    </style>
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script type='text/javascript'></script>
+<script>
+function initialize() {
+    var mapOptions = //Sets map options
+     {
+       zoom: 15,  //Sets zoom level (0-21)
+       center: new google.maps.LatLng(32.986796, -96.751165), //zoom in on users location
+       mapTypeControl: true, //allows you to select map type eg. map or satellite
+       mapTypeId: google.maps.MapTypeId.HYBRID //sets type of map Options:ROADMAP, SATELLITE, HYBRID, TERRIAN
+     };
+     map = new google.maps.Map( /*creates Map variable*/ document.getElementById("map-canvas"), mapOptions);
+
+     var lotcoordinates = [
+    new google.maps.LatLng(32.986765, -96.752314),
+    new google.maps.LatLng(32.986794, -96.753701),
+    new google.maps.LatLng(32.985931, -96.753687),
+    new google.maps.LatLng(32.985927, -96.753405),
+    new google.maps.LatLng(32.985765, -96.753406),
+    new google.maps.LatLng(32.985749, -96.752171),
+    new google.maps.LatLng(32.986205, -96.752189),
+    new google.maps.LatLng(32.986214, -96.752304),
+    new google.maps.LatLng(32.986765, -96.752314)
+  ];
+
+var polygon = new google.maps.Polygon({
+    paths: lotcoordinates,   //The PGpoints is the collection of points around this polygon.
+    map: map,
+    strokeColor: 'green',
+    strokeOpacity: 0.6,
+    strokeWeight: 1,
+    fillColor: 'green',
+    fillOpacity: 0.35       
+});
+polygon.setMap(map);
+//polygon.set("Info", idy);  // Set some attributes for adding extra information into this polygon.   
+
+google.maps.event.addListener(polygon, 'click', function() {
+    var infoWindow = new google.maps.InfoWindow();
+    infoWindow.setContent("Information : ");
+
+    // 'laty,lngy' is the location of one point in PGpoints, which can be chosen as you wish
+    infoWindow.setPosition(new google.maps.LatLng(32.986169, -96.752940));     
+    infoWindow.open(map);
+});    
+}
+
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</head>
+<body>
+    <div id='map-canvas'></div>
+</body>
+</html>
