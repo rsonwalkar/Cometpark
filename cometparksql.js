@@ -116,6 +116,16 @@ cometpark.get('/adminpanel', function (req, res) {
 	res.sendfile(__dirname + '/public/adminpanel.html');	
 });
 
+// Render a response html page for deleting a parking spot
+cometpark.get('/deletespot', function (req, res) {
+	res.sendfile(__dirname + '/public/deletespot.html');	
+});
+
+// Render a response html page for modifying the permit of a parking spot
+cometpark.get('/modifyspot', function (req, res) {
+	res.sendfile(__dirname + '/public/modifyspot.html');	
+});
+
 
 
 // Render a response html page for a specific lot A permit
@@ -341,7 +351,7 @@ cometpark.get('/lotIstatus', function (req, res) {
 
 cometpark.get('/getstatus/:lot/:permit', function (req, res) {
 	console.log('Called the getstatus route with lot and permit. Req param is: ', req.params.lot);
-	  connection.query('SELECT pid, pstatus, lat, longitude FROM parkinglot where plot="' + req.params.lot + '" and permit="' + req.params.permit +'"', function(err, success) {
+	  connection.query('SELECT pid, permit, pstatus, lat, longitude FROM parkinglot where plot="' + req.params.lot + '" and permit="' + req.params.permit +'"', function(err, success) {
 	if(!err) {
 		res.statusCode = 200;
 		console.log('Heres the data from parkinglot: ', success);

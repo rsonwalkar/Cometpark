@@ -1,0 +1,176 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="effects.css">
+		<meta charset='utf-8'>
+		<div align="center">
+  			<h1>Admin Control Panel</h1>
+		</div>
+		<meta name='description' content='Cometpark Frontend'>
+		<meta name='author' content='Rohit Sonwalkar'>
+		 <!--Mobile viewport optimized-->
+		<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+		<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	</head>
+	<body>
+		<div id='addspot' align="center">
+			<h3>Add a parking spot</h3>
+				<label>Parking Lot:</label>
+				<select id='addparkinglot'>
+  				<option value="">Select</option>	
+  				<option value="A">A</option>
+  				<option value="B">B</option>
+  				<option value="C">C</option>
+  				<option value="D">D</option>
+				</select></br>
+				<label>Parking Permit:</label>
+				<select id='addparkingpermit'>
+				<option value="">Select</option>
+  				<option value="green">green</option>
+  				<option value="gold">gold</option>
+  				<option value="purple">purple</option>
+  				<option value="orange">orange</option>
+				</select></br>
+				Parking Spot ID:<input type='text' id='addspotinput' name='addspotinput'></input><br>
+				Parking Spot Lat:<input type='text' id='addlatitude' name='addlatitude'></input><br>
+				Parking Spot Long:<input type='text' id='addlongitude' name='addlongitude'></input><br>
+				<button value='submit' type='submit' onClick='addparkingspot()'>Add</button></br>
+				<p1></p1></br></br>
+		</div>
+		<div id='deletespot' align="center">
+			<h3>Delete a parking spot</h3>
+				Parking Spot ID: <input type='text' id='deletespotinput' name='deletespotinput'></input><br>
+				<button value='submit' type='submit' onClick='deleteparkingspot()'>Delete</button></br>
+				<p2></p2></br></br>
+		</div>
+		<div id='modifypermit' align="center">
+			<h3>Modify the permit of a parking spot</h3>
+				<label>New Permit Type:</label>
+				<select id='modifyparkingpermit'>
+				<option value="">Select</option>
+  				<option value="green">green</option>
+  				<option value="gold">gold</option>
+  				<option value="purple">purple</option>
+  				<option value="orange">orange</option>
+				</select></br>
+				Parking Spot ID: <input type='text' id='modifypermitinput' name='modifypermitinput'></input><br>
+				<button value='submit' type='submit' onClick='modifyparkingspot()'>Modify</button></br>
+				<p3></p3></br></br>
+		</div>
+		<div>
+			</br></br></br></br></br>
+			<a href='http://rohitsonwalkar.com:4242/'><img src="images/Cancel.png" alt=""/>Logout</a>
+		</div>
+  		
+		<script type="text/javascript">
+			function addparkingspot() {
+  				var lot = document.getElementById('addparkinglot').value;
+  				var permit = document.getElementById('addparkingpermit').value;
+  				var id = document.getElementById('addspotinput').value;
+  				var latitude = document.getElementById('addlatitude').value;
+  				var longitude = document.getElementById('addlongitude').value;
+  				console.log('Lot: ' + lot + ' Permit:' + permit + ' ID: ' + id + ' Latitude: ' + ' Longitude: ' + longitude);
+  				if(!lot || !permit || !id || !latitude || !longitude) {
+  					alert('Oops... You did not fill in the details.');
+  				} else {
+  					$.ajax({
+					type: 'POST',
+					datatype: 'json',
+					data: JSON.stringify({'lot': lot, 'permit': permit, 'id': id, 'latitude': latitude, 'longitude': longitude}),
+					contentType: 'application/json; charset=utf-8',
+					url: 'http://rohitsonwalkar.com:4242/adminpanel/addparkingspot',
+					success: function(data) {
+						console.log(data);
+						if(data === 'Entry successfully inserted into the system :)') {
+							$("p1").empty();
+							$('p1').text(data);
+
+						} else {
+
+						//if(jQuery.isEmptyObject(data)) {
+						//var items = [];
+						//items.push('<div align="center">');
+						//var text = 'No matching records.';
+						//console.log('Here is the data from post: '+data);
+						var items = [];
+						$.each(data, function(id, status) {
+							console.log(id, ' ', status.pid, ' ', status.pstatus, ' ', status.permit);
+							items.push('<li>' + 'Lot: ' + status.plot + ', ' + ' Id: ' + status.pid + ', ' + 'Status: ' + status.pstatus + ', ' + 'Permit: ' + status.permit + '</li>');
+							});
+							$("p1").empty();
+							$("p1").text('A valid record already exists in the database. Please consider modifying it.');
+							$( "<ul/>", {
+    							"class": "my-parking-list",
+    							html: items.join( "</div>" )
+  							}).appendTo( "p1" );
+						// Commenting this line before ASEP class
+						//$('p1').text(data);
+						}
+						
+					}	
+					});
+  				}
+  			}
+
+  			function deleteparkingspot() {
+  				var parkingspot = document.getElementById('deletespotinput').value;
+  				if(!parkingspot) {
+  					alert('Oops... You did not enter the parking spot you wish to be deleted.');
+  				} else {
+  					//console.log('Parking Spot: ' + parkingspot);
+  					$.ajax({
+					type: 'DELETE',
+					datatype: 'json',
+					data: JSON.stringify({'id': parkingspot}),
+					contentType: 'application/json; charset=utf-8',
+					url: 'http://rohitsonwalkar.com:4242/adminpanel/deleteparkingspot',
+					success: function(data) {
+						console.log('Here is the data from post: '+data);
+						//if(jQuery.isEmptyObject(data)) {
+						//var items = [];
+						//items.push('<div align="center">');
+						//var text = 'No matching records.';
+						//console.log('Here is the data from post: '+data);
+						//$('p1').empty();
+						//$('p1').text(data);
+						//$('p').text('Incorrect credentials. Please try again.');
+						//document.getElementById("mydiv").innerHTML=data;
+						$('p2').text(data);
+						//}
+						}	
+					});
+  				}
+  			}
+
+  			function modifyparkingspot() {
+  				var permit = document.getElementById('modifyparkingpermit').value;
+  				var parkingspot = document.getElementById('modifypermitinput').value;
+  				if(!permit || !parkingspot) {
+  					alert('Oops... You did not enter the spot id details you wish to modify.');
+  				} else {
+  					$.ajax({
+					type: 'PUT',
+					datatype: 'json',
+					data: JSON.stringify({'permit': permit, 'id': parkingspot}),
+					contentType: 'application/json; charset=utf-8',
+					url: 'http://rohitsonwalkar.com:4242/adminpanel/modifyparkingspot',
+					success: function(data) {
+					//if(jQuery.isEmptyObject(data)) {
+						//var items = [];
+						//items.push('<div align="center">');
+					var text = 'No matching records.';
+					console.log('Here is the data from post: '+data);
+					//$('p1').empty();
+					//$('p1').text(data);
+					//$('p').text('Incorrect credentials. Please try again.');
+					//document.getElementById("mydiv").innerHTML=data;
+					$('p3').text(data);
+					//}
+					}	
+				});
+  				}
+  			}
+
+
+		</script>
+	</body>
+</html>

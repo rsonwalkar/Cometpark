@@ -1,5 +1,7 @@
 <html>
     <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
         <link rel="StyleSheet" href="style.css" type = "text/css"/>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -13,9 +15,9 @@
                 });
             });
 
-            // Code to display Lot I real time parking status
-            function initialize() {
-
+  var map;
+  // Code to display Lot I real time parking status
+  function initialize() {
   // Geolocation code to locate the real-time location of the driver
   if (navigator.geolocation) { //Checks if browser supports geolocation
    navigator.geolocation.getCurrentPosition(function (position) {                                                              //This gets the
@@ -88,12 +90,19 @@
   // Code to update the Lot A markers
       lotstatus()
       function lotstatus(){
+        // Get permit value from the combobox
+        var permit = document.getElementById('selectedpermit').value;
+        console.log("selected permit: "+permit);
+
+        
+        
+
       var parkingspots = [];
       $.ajax({
         type: 'GET',
         datatype: 'json',
         contentType: 'application/json; charset=utf-8',
-        url: 'http://rohitsonwalkar.com:4242/getstatus/I',
+        url: 'http://rohitsonwalkar.com:4242/getstatus/I/'+permit,
         success: function(data) {   
             // Loop to fetch details of each parking spot for parking lot A
             $.each(data, function(id, status) {
@@ -116,30 +125,70 @@
         //for (i = 0; i < locations.length; i++) {
           // Deleting old markers
           clearOverlays()
-          $("#green").empty();
-          $("#orange").empty();
-          $("#purple").empty();
-          $("#gold").empty();
-          $("#handicap").empty();
+
+          
+          $("#spots").empty();
+          $("#all").empty();
+          var greencount=0;
+          var orangecount=0;
+          var purplecount=0;
+          var goldcount=0;
+          var handicapcount=0;
+
+          if(permit == ''){
+          $("#all").append("<div id='green'>Green</div></br>");
+          $("#all").append("<div id='orange'>Orange</div></br>");
+          $("#all").append("<div id='purple'>Purple</div></br>");
+          $("#all").append("<div id='gold'>Gold</div></br>");
+          $("#all").append("<div id='handicap'>Handicap</div>");
+          
+          }
           for (var i = 0; i < parkingspots.length; i++) {
             console.log(parkingspots[i].pid, ' ', parkingspots[i].pstatus, ' ', parkingspots[i].lat);
             if(parkingspots[i].pstatus == 'vacant') {
               if(parkingspots[i].permit == 'green') {
+                greencount += 1;
                 //var image = 'http://maps.google.com/mapfiles/ms/icons/green-dot.png';
                  image = '/images/marker_green.png'; 
-                 $("#green").append(parkingspots[i].pid+"</br>"); 
+                 if(permit == '') {
+                  $("#green").append("</br>"+parkingspots[i].pid);
+                 } else if(permit=='green') {
+                  $("#spots").append("</br>"+parkingspots[i].pid);  
+                 }
+                 
               } else if (parkingspots[i].permit == 'orange') {
+                orangecount += 1;
                  image = '/images/marker_orange.png';
-                 $("#orange").html(parkingspots[i].pid+"</br>");
+                 if(permit == '') {
+                  $("#orange").append("</br>"+parkingspots[i].pid);
+                 } else if(permit=='orange') {
+                  $("#spots").append("</br>"+parkingspots[i].pid);  
+                 }
+                 
               } else if (parkingspots[i].permit == 'gold') {
+                goldcount += 1;
                  image = '/images/marker_yellow.png';
-                 $("#gold").html(parkingspots[i].pid+"</br>");
+                 if(permit == '') {
+                  $("#gold").append("</br>"+parkingspots[i].pid);
+                 } else if(permit=='gold') {
+                  $("#spots").append("</br>"+parkingspots[i].pid);  
+                 }
               } else if (parkingspots[i].permit == 'purple') {
+                purplecount += 1;
                  image = '/images/marker_purple.png';
-                 $("#purple").html(parkingspots[i].pid+"</br>");
+                 if(permit == '') {
+                  $("#purple").append("</br>"+parkingspots[i].pid);
+                 } else if(permit=='purple') {
+                  $("#spots").append("</br>"+parkingspots[i].pid);  
+                 }
               } else if (parkingspots[i].permit == 'handicap') {
+                handicapcount += 1;
                  image = '/images/marker_blue.png';
-                 $("#handicap").html(parkingspots[i].pid+"</br>");
+                 if(permit == '') {
+                  $("#handicap").append("</br>"+parkingspots[i].pid);
+                 } else if(permit=='handicap') {
+                  $("#spots").append("</br>"+parkingspots[i].pid);  
+                 }
               } 
               //Adding parking permit type information to the info window of a parking spot marker
               var contentString = '<p>Parking Spot: '+parkingspots[i].pid+'</p>';
@@ -163,6 +212,36 @@
             }
 
             
+        }
+        console.log("Green count: ", greencount);
+        console.log("Orange count: ", orangecount);
+        console.log("Purple count: ", purplecount);
+        console.log("Gold count: ", goldcount);
+        console.log("Handicap count: ", handicapcount);
+        if(permit == '') {
+        if(greencount == 0) {
+          $("#green").append("</br>No vacancy!");
+        } if(orangecount == 0) {
+          $("#orange").append("</br>No vacancy!");
+        } if(purplecount == 0) {
+          $("#purple").append("</br>No vacancy!");
+        } if(goldcount == 0) {
+          $("#gold").append("</br>No vacancy!");
+        } if(handicapcount == 0) {
+          $("#handicap").append("</br>No vacancy!");
+        }
+        }
+
+        if (permit == 'green' && greencount == 0) {
+          $("#spots").append("</br>No vacancy!");
+        } else if (permit == 'orange' && orangecount == 0) {
+          $("#spots").append("</br>No vacancy!");
+        } else if (permit == 'purple' && purplecount == 0) {
+          $("#spots").append("</br>No vacancy!");
+        } else if (permit == 'gold' && goldcount == 0) {
+          $("#spots").append("</br>No vacancy!");
+        } else if (permit == 'handicap' && handicapcount == 0) {
+          $("#spots").append("</br>No vacancy!");
         }
         
         // Deleting all the markers from the map
@@ -197,29 +276,42 @@ $(window).on('resize', function() {
     google.maps.event.trigger(map, 'resize');
     map.setCenter(currCenter);
   });
+
         </script>
 
-        <title>CometPark</title>
+        <title>CometPark : Lot I</title>
     </head>
     <body>
         <header>
-            <header>
             <div id="sidebarButton"></div>
-            <div id="headerTitle"><a href="http://rohitsonwalkar.com:4242">CometPark</a></div>
+            <div id="headerTitle"><a href="http://rohitsonwalkar.com:4242">CometPark</a> : Lot I</div>
         </header>
-        </header>
+
         <div id="sidebar">
+            
             <div id="sidebarTitle">Lot I Vacancy Status</div>
-            <div class="sidebarText">Green</div>
-            <div id='green' class="sidebarText"></div>
-            <div class="sidebarText">Orange</div>
-            <div id='orange' class="sidebarText"></div>
-            <div class="sidebarText">Purple</div>
-            <div id='purple' class="sidebarText"></div>
-            <div class="sidebarText">Gold</div>
-            <div id='gold' class="sidebarText"></div>
-            <div class="sidebarText">Handicap</div>
-            <div id='handicap' class="sidebarText"></div>
+            <div class="sidebarText">
+              <label>Permit :</label>
+                <select id="selectedpermit">
+                  <option value="green">Green</option>
+                  <option value="orange">Orange</option>
+                  <option value="purple">Purple</option>
+                  <option value="gold">Gold</option>
+                  <option value="handicap">Handicap</option>
+                  <option value="">All</option>
+                </select>
+            </div>
+            <div id="spots" class="sidebarText">
+              
+            </div>
+            <div id="all" class="sidebarText">
+              <!--<div id='green'></div>
+              <div id='orange'></div>
+              <div id='purple'></div>
+              <div id='gold'></div>
+              <div id='handicap'></div>-->
+            </div>
+            
         </div>
         <section id="section"></section>
         <footer>CometPark &copy;2014</footer>

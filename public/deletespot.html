@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="StyleSheet" href="style.css" type = "text/css"/>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script language="javascript" type="text/javascript">
+            // Ajax code for sidebar
+            $(document).ready(function() {
+                $("#sidebar").hide();
+                $("#sidebarButton").click(function() {
+                    $("#sidebar").toggle();
+                });
+            });
+
+            // Ajax code for deleting a parking spot
+            function deleteparkingspot() {
+                var parkingspot = document.getElementById('deletespotinput').value;
+                if(!parkingspot) {
+                    alert('Oops... You did not enter the parking spot you wish to be deleted.');
+                } else {
+                    //console.log('Parking Spot: ' + parkingspot);
+                    $.ajax({
+                    type: 'DELETE',
+                    datatype: 'json',
+                    data: JSON.stringify({'id': parkingspot}),
+                    contentType: 'application/json; charset=utf-8',
+                    url: 'http://rohitsonwalkar.com:4242/adminpanel/deleteparkingspot',
+                    success: function(data) {
+                        console.log('Here is the data from post: '+data);
+                        //if(jQuery.isEmptyObject(data)) {
+                        //var items = [];
+                        //items.push('<div align="center">');
+                        //var text = 'No matching records.';
+                        //console.log('Here is the data from post: '+data);
+                        //$('p1').empty();
+                        //$('p1').text(data);
+                        //$('p').text('Incorrect credentials. Please try again.');
+                        //document.getElementById("mydiv").innerHTML=data;
+                        $('p2').text(data);
+                        //}
+                        }   
+                    });
+                }
+            }
+        </script>
+
+        <title>CometPark : Delete Spot</title>
+    </head>
+    <body>
+        <header>
+            <div id="sidebarButton"></div>
+            <div id="headerTitle"><a href="http://rohitsonwalkar.com:4242">CometPark</a></div>
+        </header>
+        <div id="sidebar">
+            <div id="sidebarTitle">Admin Panel : Go to</div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/adminpanel">Add Parking Spot</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/modifyspot">Modify Parking Spot</a></div>
+        </div>
+        <section>
+            <div id='deletespot' align="center">
+            <h3>Delete a parking spot</h3>
+                Parking Spot ID: <input type='text' id='deletespotinput' name='deletespotinput'></input><br>
+                <button value='submit' type='submit' onClick='deleteparkingspot()'>Delete</button></br>
+                <p2></p2></br></br>
+        </div>
+        </section>
+        <footer>CometPark &copy;2014</footer>
+    </body>
+</html>

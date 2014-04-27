@@ -61,7 +61,7 @@ section {
     width: auto;
     position: relative;
     overflow: auto;
-    margin: 50px;
+    margin: 10px;
     padding: 0px;
     border-color: #008542;
     border-style: solid;
@@ -71,9 +71,9 @@ section {
 
 #sidebar {
     background-color: #008542;
-    height: 450px;
+    height: auto;
     width: 300px;
-    position: fixed;
+    position: absolute;
     left: 0px;
     top: 60px;
     margin: 0px;
