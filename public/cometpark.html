@@ -1,0 +1,377 @@
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+        <meta charset="utf-8">
+        <link rel="StyleSheet" href="style.css" type = "text/css"/>
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script language="javascript" type="text/javascript">
+            // Ajax code to handle sidebar toggle
+            $(document).ready(function() {
+                $("#sidebar").hide();
+                $("#sidebarButton").click(function() {
+                    $("#sidebar").toggle();
+                });
+            });
+
+            var map;
+            // UT Dallas map code with parking lots represented by polygons
+            function initialize () {
+
+  
+
+      // Generating Map for UT Dallas
+       map = new google.maps.Map(document.getElementById('section'), {
+          zoom: 16,
+          center: new google.maps.LatLng(32.9873382,-96.7504263),//32.9904199,-96.7451339
+          mapTypeId: google.maps.MapTypeId.MAP,
+          //rotateControl: true,
+          zoomControl: false
+        });
+      var polygonarray = [];
+       var polygonmarkerarray = [];
+       var infowindowcontentarray = [];
+       var infowindowpositionarray = [];
+       var markerarray = [];
+       var markerinfowindowarray = [];
+       var parkinglotarray = [];
+       var parkinglot;
+       var marker;
+       var parkinglotmarker;
+       var closest;
+       var colorarray= ['yellow', 'green', 'red', 'blue', 'indigo', 'coral', 'darksalmon', 'chocolate', 'aqua', 'orange', 'deeppink', 'gray'];
+       var lotAcoordinates = [
+    new google.maps.LatLng(32.990019, -96.746751),
+    new google.maps.LatLng(32.989466, -96.746875),
+    new google.maps.LatLng(32.988953, -96.746472),
+    new google.maps.LatLng(32.990213, -96.744246),
+    new google.maps.LatLng(32.990676, -96.744074),
+    new google.maps.LatLng(32.991621, -96.744740),
+    new google.maps.LatLng(32.991860, -96.745233),
+    new google.maps.LatLng(32.990019, -96.746751),
+  ];
+  polygonarray.push(lotAcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.990297, -96.745490));
+  polygonmarkerarray.push('Lot A');
+  infowindowcontentarray.push('<b>Parking Lot A</b></br><i><p>This parking lot is right in front of the Police Department and the Services Building and is the biggest parking lot on campus. It holds 150 Green, 15 Gold, 10 Purple and 5 Handicap parking spots.</p></i><a href="http://rohitsonwalkar.com:4242/lotAstatus">Vacancy Status</a>');
+  var lotBcoordinates = [
+    new google.maps.LatLng(32.990121, -96.743852),
+    new google.maps.LatLng(32.990161, -96.744253),
+    new google.maps.LatLng(32.988818, -96.746523),
+    new google.maps.LatLng(32.988179, -96.746005),
+    new google.maps.LatLng(32.989068, -96.744361),
+    new google.maps.LatLng(32.989208, -96.743779),
+    new google.maps.LatLng(32.990121, -96.743852)
+  ];
+  polygonarray.push(lotBcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.989234, -96.745008));
+  polygonmarkerarray.push('Lot B');
+  infowindowcontentarray.push('<b>Parking Lot B</b></br><i><p>This parking lot is right besides Parking Lot A and W Lookout Drive. It holds of 80 Green, 5 Gold, 5 Purple and 3 Handicap parking spots.</p></i><a href="http://rohitsonwalkar.com:4242/lotBstatus">Vacancy Status</a>');
+  var lotCcoordinates = [
+    new google.maps.LatLng(32.988282, -96.744704),
+    new google.maps.LatLng(32.988100, -96.744850),
+    new google.maps.LatLng(32.987739, -96.745456),
+    new google.maps.LatLng(32.987381, -96.745452),
+    new google.maps.LatLng(32.987383, -96.744096),
+    new google.maps.LatLng(32.987606, -96.743849),
+    new google.maps.LatLng(32.988074, -96.743886),
+    new google.maps.LatLng(32.988437, -96.743781),
+    new google.maps.LatLng(32.988578, -96.743932),
+    new google.maps.LatLng(32.988282, -96.744704),
+  ];
+  polygonarray.push(lotCcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.987810, -96.744504));
+  polygonmarkerarray.push('Lot C');
+  infowindowcontentarray.push('<b>Parking Lot C</b></br><i><p>This parking lot is right besides the W Lookout Drive. It holds 50 Green, 5 Gold, 3 Purple and 3 Handicap parking spots.</p></i><a href="http://rohitsonwalkar.com:4242/lotCstatus">Vacancy Status</a>');
+  var lotDcoordinates = [
+    new google.maps.LatLng(32.987245, -96.744011),
+    new google.maps.LatLng(32.987252, -96.745264),
+    new google.maps.LatLng(32.987155, -96.745353),
+    new google.maps.LatLng(32.986302, -96.744198),
+    new google.maps.LatLng(32.986425, -96.744024),
+    new google.maps.LatLng(32.987149, -96.743916),
+    new google.maps.LatLng(32.987245, -96.744011)
+  ];
+  polygonarray.push(lotDcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.986884, -96.744453));
+  polygonmarkerarray.push('Lot D');
+  infowindowcontentarray.push('<b>Parking Lot D</b></br><i><p>This parking lot is right besides parking lot C. It holds 30 Green, 2 Gold, 2 Purple and 2 Handicap parking spots.</p></i><a href="http://rohitsonwalkar.com:4242/lotDstatus">Vacancy Status</a>');
+  var lotGcoordinates = [
+    new google.maps.LatLng(32.988053, -96.747138),
+    new google.maps.LatLng(32.988064, -96.747601),
+    new google.maps.LatLng(32.987994, -96.747612),
+    new google.maps.LatLng(32.987994, -96.747744),
+    new google.maps.LatLng(32.987502, -96.747762),
+    new google.maps.LatLng(32.987499, -96.746918),
+    new google.maps.LatLng(32.987884, -96.746925),
+    new google.maps.LatLng(32.987902, -96.747152),
+    new google.maps.LatLng(32.988053, -96.747138)
+  ];
+  polygonarray.push(lotGcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.987775, -96.747337));
+  polygonmarkerarray.push('Lot G');
+  infowindowcontentarray.push('<b>Parking Lot G</b></br><i><p>This parking lot is right besides the Mc Dermott Library. It holds 20 Green, 5 Orange, 2 Gold, 2 Purple and 3 Handicap spots.</p></i><a href="http://rohitsonwalkar.com:4242/lotGstatus">Vacancy Status</a>');
+  var lotHcoordinates = [
+    new google.maps.LatLng(32.988352, -96.752426),
+    new google.maps.LatLng(32.988337, -96.753699),
+    new google.maps.LatLng(32.987085, -96.753719),
+    new google.maps.LatLng(32.987062, -96.752454),
+    new google.maps.LatLng(32.988352, -96.752426)
+  ];
+  polygonarray.push(lotHcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.987708, -96.753050));
+  infowindowcontentarray.push('<b>Parking Lot H</b></br><i><p>This parking lot is right behind the Arts & Humanities building and in front of University Village Phase 6. It holds of 80 Green, 10 Orange, 10 Gold, 8 Purple and 5 Handicap parking spots.</p></i><a href="http://rohitsonwalkar.com:4242/lotHstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot H');
+  var lotIcoordinates = [
+    new google.maps.LatLng(32.986765, -96.752314),
+    new google.maps.LatLng(32.986794, -96.753701),
+    new google.maps.LatLng(32.985931, -96.753687),
+    new google.maps.LatLng(32.985927, -96.753405),
+    new google.maps.LatLng(32.985765, -96.753406),
+    new google.maps.LatLng(32.985749, -96.752171),
+    new google.maps.LatLng(32.986205, -96.752189),
+    new google.maps.LatLng(32.986214, -96.752304),
+    new google.maps.LatLng(32.986765, -96.752314)
+  ];
+  polygonarray.push(lotIcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.986204, -96.752970));
+  infowindowcontentarray.push('<b>Parking Lot I</b></br><p><i>This parking lot is right besides the Clark Center.  It holds of 50 Green, 10 Orange, 8 Gold, 3 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotIstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot I');
+  var lotJcoordinates = [
+    new google.maps.LatLng(32.985496, -96.750714),
+    new google.maps.LatLng(32.985498, -96.751118),
+    new google.maps.LatLng(32.984017, -96.751117),
+    new google.maps.LatLng(32.984017, -96.750879),
+    new google.maps.LatLng(32.983643, -96.750873),
+    new google.maps.LatLng(32.983624, -96.748360),
+    new google.maps.LatLng(32.983787, -96.748358),
+    new google.maps.LatLng(32.983805, -96.749805),
+    new google.maps.LatLng(32.984016, -96.749805),
+    new google.maps.LatLng(32.984037, -96.750060),
+    new google.maps.LatLng(32.984816, -96.750073),
+    new google.maps.LatLng(32.984821, -96.750709),
+    new google.maps.LatLng(32.985496, -96.750714)
+  ];
+  polygonarray.push(lotJcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.984339, -96.750525));
+  infowindowcontentarray.push('<b>Parking Lot J</b></br><p><i>This parking lot is right besides the Activity Center and in front of the Erik Jonsson School of Engineering. It holds of 80 Green, 10 Orange, 10 Gold, 5 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotJstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot J');
+  var lotKcoordinates = [
+    new google.maps.LatLng(32.986372, -96.749191),
+    new google.maps.LatLng(32.986381, -96.749629),
+    new google.maps.LatLng(32.985757, -96.749639),
+    new google.maps.LatLng(32.985751, -96.749198),
+    new google.maps.LatLng(32.986372, -96.749191)
+  ];
+  polygonarray.push(lotKcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.986076, -96.749417));
+  infowindowcontentarray.push('<b>Parking Lot K</b></br><p><i>This parking lot is right in front of the Student Services Building and behind the Erik Jonsson Engineering building. It holds 40 Green, 5 Orange, 5 Gold, 5 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotKstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot K');
+  var lotMWestcoordinates = [
+    new google.maps.LatLng(32.984120, -96.746845),
+    new google.maps.LatLng(32.984138, -96.747683),
+    new google.maps.LatLng(32.983939, -96.747859),
+    new google.maps.LatLng(32.983034, -96.747621),
+    new google.maps.LatLng(32.982989, -96.746897),
+    new google.maps.LatLng(32.984120, -96.746845)
+  ];
+  polygonarray.push(lotMWestcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.983657, -96.747302));
+  infowindowcontentarray.push('<b>Parking Lot M West</b></br><p><i>This parking lot is right in front of the JSOM school. It holds of 60 Green, 10 Orange, 8 Gold, 5 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotMWstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot M West');
+  var lotMEastcoordinates = [
+    new google.maps.LatLng(32.984160, -96.746703),
+    new google.maps.LatLng(32.983842, -96.746712),
+    new google.maps.LatLng(32.983692, -96.746652),
+    new google.maps.LatLng(32.982981, -96.746669),
+    new google.maps.LatLng(32.982940, -96.745991),
+    new google.maps.LatLng(32.984142, -96.745934),
+    new google.maps.LatLng(32.984160, -96.746703)
+  ];
+  polygonarray.push(lotMEastcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.983551, -96.746292));
+  infowindowcontentarray.push('<b>Parking Lot M East</b></br><p><i>This parking lot is right in front of the JSOM school. It holds of 60 Green, 10 Orange, 8 Gold, 5 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotMEstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot M East');
+  var lotTcoordinates = [
+    new google.maps.LatLng(32.992861, -96.751364),
+    new google.maps.LatLng(32.992861, -96.753208),
+    new google.maps.LatLng(32.991975, -96.753203),
+    new google.maps.LatLng(32.991953, -96.751342),
+    new google.maps.LatLng(32.992861, -96.751364)
+  ];
+  polygonarray.push(lotTcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.992430, -96.752278));
+  infowindowcontentarray.push('<b>Parking Lot T</b></br><p><i>This parking lot is right behind the Natural Sciences and Engineering Research Lab building. It holds 80 Green, 10 Orange, 10 Gold, 5 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotTstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot T');
+  var lotWcoordinates = [
+    new google.maps.LatLng(32.992245, -96.756853),
+    new google.maps.LatLng(32.992244, -96.758377),
+    new google.maps.LatLng(32.992405, -96.758374),
+    new google.maps.LatLng(32.992392, -96.756671),
+    new google.maps.LatLng(32.991614, -96.756658),
+    new google.maps.LatLng(32.991614, -96.758366),
+    new google.maps.LatLng(32.991775, -96.758370),
+    new google.maps.LatLng(32.991772, -96.756847),
+    new google.maps.LatLng(32.992245, -96.756853)
+  ];
+  polygonarray.push(lotWcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.992272, -96.757492));
+  infowindowcontentarray.push('<b>Parking Lot W</b></br><p><i>This parking lot is right behind the Waterview Science and Technology Center. It holds  25 Green, 8 Orange, 5 Gold, 3 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotWstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot W');
+  var lotVcoordinates = [
+    new google.maps.LatLng(32.986752, -96.756813),
+    new google.maps.LatLng(32.986759, -96.758375),
+    new google.maps.LatLng(32.985653, -96.758376),
+    new google.maps.LatLng(32.985647, -96.757569),
+    new google.maps.LatLng(32.986661, -96.757552),
+    new google.maps.LatLng(32.986665, -96.756816),
+    new google.maps.LatLng(32.986752, -96.756813)
+  ];
+  polygonarray.push(lotVcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.986215, -96.757976));
+  infowindowcontentarray.push('<b>Parking Lot V</b></br><p><i>This parking lot is right behind the Research and Operations Building. It holds 40 Green, 5 Orange, 5 Gold, 3 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotVstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot V');
+  var lotNcoordinates = [
+    new google.maps.LatLng(32.992797, -96.747795),
+    new google.maps.LatLng(32.992805, -96.748867),
+    new google.maps.LatLng(32.992637, -96.748879),
+    new google.maps.LatLng(32.992630, -96.747829),
+    new google.maps.LatLng(32.992797, -96.747795)
+  ];
+  polygonarray.push(lotNcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.992714, -96.748341));
+  infowindowcontentarray.push('<b>Parking Lot N</b></br><p><i>This parking lot is right Callier Center building. It holds 25 Green, 5 Gold, 3 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotNstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot N');
+  var lotRcoordinates = [
+    new google.maps.LatLng(32.990251, -96.748400),
+    new google.maps.LatLng(32.989952, -96.747890),
+    new google.maps.LatLng(32.990068, -96.747718),
+    new google.maps.LatLng(32.990278, -96.747982),
+    new google.maps.LatLng(32.990415, -96.748300),
+    new google.maps.LatLng(32.990251, -96.748400)
+  ];
+  polygonarray.push(lotRcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.990195, -96.748043));
+  infowindowcontentarray.push('<b>Parking Lot R</b></br><p><i>This parking lot is right behind the Administration building. It holds 10 Green, 2 Orange, 2 Gold, 2 Purple and 2 Handicap spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotRstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot R');
+
+  var lotScoordinates = [
+    new google.maps.LatLng(32.992793, -96.747149),
+    new google.maps.LatLng(32.992794, -96.747706),
+    new google.maps.LatLng(32.991544, -96.747741),
+    new google.maps.LatLng(32.991546, -96.747467),
+    new google.maps.LatLng(32.992461, -96.747462),
+    new google.maps.LatLng(32.992463, -96.747151),
+    new google.maps.LatLng(32.992793, -96.747149)
+  ];
+  polygonarray.push(lotScoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.992221, -96.747573));
+  infowindowcontentarray.push('<b>Parking Lot S</b></br><p><i>This parking lot is right in front of the Facilities Management building. It holds 35 Green, 5 Orange, 5 Gold, 3 Purple and 3 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotSstatus">Vacancy Status</a>');
+  polygonmarkerarray.push('Lot S');
+
+  var lotFcoordinates = [
+    new google.maps.LatLng(32.984451, -96.749081),
+    new google.maps.LatLng(32.984451, -96.749501),
+    new google.maps.LatLng(32.984115, -96.749509),
+    new google.maps.LatLng(32.984114, -96.749086),
+    new google.maps.LatLng(32.984451, -96.749081)
+  ];
+  polygonarray.push(lotFcoordinates);
+  infowindowpositionarray.push(new google.maps.LatLng(32.984273, -96.749294));
+  infowindowcontentarray.push('<b>Parking Lot F</b></br><p><i>This parking lot is right in front of the Visitor Center. It holds 15 Green, 5 Orange, 3 Gold, 2 Purple and 2 Handicap parking spots.</i></p><a href="http://rohitsonwalkar.com:4242/lotFstatus">Vacancy Status</a>');
+
+  for(var i=0; i<polygonarray.length; i++) {
+    // Construct the polygon.
+    parkinglot = new google.maps.Polygon({
+    paths: polygonarray[i],
+    strokeColor: 'black',//'#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: colorarray[i],
+    fillOpacity: 0.35
+  });
+
+  parkinglot.setMap(map);
+
+  parkinglotarray.push(parkinglot);
+
+} 
+  
+  
+  /*for(var i=0; i<infowindowcontentarray.length; i++) {
+    console.log('Infowindow content array: ', infowindowcontentarray[i]);    
+  }*/
+
+var infowindow = new google.maps.InfoWindow();
+for(var i=0; i<parkinglotarray.length; i++) {
+  var parkinglot = parkinglotarray[i];
+  //var infowindow = markerinfowindowarray[i];
+  //console.log('Inside infowindow loop. Value of infowindow is: ', parkinglot);
+  google.maps.event.addListener(parkinglot, 'click', (function(parkinglot, i) {
+    return function() {
+      infowindow.setContent(infowindowcontentarray[i]);
+      infowindow.setPosition(infowindowpositionarray[i]);
+      console.log(infowindowcontentarray[i]);
+      infowindow.open(map);  
+    }
+   
+    
+  })(parkinglot, i));
+}
+   
+
+  // Geolocation code
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
+
+      var infowindow = new google.maps.InfoWindow({
+        map: map,
+        position: pos,
+        content: 'You!'
+      });
+
+      //map.setCenter(pos);
+    });
+  }
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+// Ajax code to set the map center after resizing the window
+$(window).on('resize', function() {
+    var currCenter = map.getCenter();
+    google.maps.event.trigger(map, 'resize');
+    map.setCenter(currCenter);
+  });
+        </script>
+
+        <title>CometPark</title>
+    </head>
+    <body>
+        <header>
+            <div id="sidebarButton"></div>
+            <div id="headerTitle"><a href="http://rohitsonwalkar.com:4242">CometPark</a></div>
+        </header>
+        <div id="sidebar">
+            <div id="sidebarTitle">UT Dallas Parking Lots</div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotAstatus">Lot A</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotBstatus">Lot B</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotCstatus">Lot C</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotDstatus">Lot D</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotGstatus">Lot G</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotHstatus">Lot H</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotIstatus">Lot I</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotMWstatus">Lot M West</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotMEstatus">Lot M East</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotRstatus">Lot R</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotVstatus">Lot V</a></div>
+            <div class="sidebarText"><a href="http://rohitsonwalkar.com:4242/lotWstatus">Lot W</a></div>
+        </div>
+        <section id="section"></section>
+        <footer>CometPark &copy;2014</footer>
+    </body>
+</html>

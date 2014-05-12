@@ -640,4 +640,4 @@ cometpark.del('/api/parkingstatus', function(req, res) {
 
 // Launch cometpark server
 
-cometpark.listen(process.env.PORT || 4242);	
+cometpark.listen(process.env.PORT || 80);	
