@@ -1,4 +1,5 @@
 var application_root = __dirname,
+	print "abc"
     express = require("express"),
     path = require("path"),
     mongoose = require('mongoose'),
